@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+	
+<head>
+		<meta charset="utf-8">
+		<title>Linux Assistant</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+		<meta name="description" content="#">
+		<!-- Bootstrap core CSS -->
+		<link href="dist/css/lib/bootstrap.min.css" type="text/css" rel="stylesheet">
+		<link href="dist/css/bootstrap.min.css" type="text/css" rel="stylesheet">
+		<link href="dist/css/fontawesome.min.css" type="text/css" rel="stylesheet">
+		<link href="dist/css/all.css" type="text/css" rel="stylesheet">
+		<link href="dist/css/style.css" type="text/css" rel="stylesheet">
+
+		<!-- Swipe core CSS -->
+		<link href="dist/css/swipe.min.css" type="text/css" rel="stylesheet">
+		<!-- Favicon -->
+		<link href="dist/img/favicon.png" type="image/png" rel="icon">
+		<meta charset="utf-8" />
+ 		<!-- import plugin script -->
+		<script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
+	</head>
+	<body>
+
+		<!-- Layout -->
+		<div class="layout">
+			<!-- Start of Navigation -->
+			<nav class="navigation">
+				<div class="container">
+						<a href="#" class="logo" rel="home"><img src="dist/img/favicon.png">
+					<ul class="nav" role="tablist">
+							
+						 <li><a href="chat_window.html"   ><i   class="icon  fas fa-robot"></i></a></li>
+						 <li><a href="chart.html"   ><i class="icon activate fas fa-chart-pie"></i></a></li>
+						 <li><a href="#conversations"   ><i class="icon fas fa-cogs"></i></a></li>
+						 <li><a href="#conversations"   ><i class="icon fas fa-door-open"></i></a></li>
+						 
+
+					</ul>
+				</div>
+			</nav>
+			<!-- End of Navigation -->
+			<!-- Start of Sidebar -->
+		 
+			<!-- End of Sidebar -->
+			<!-- Start of Chat -->
+			<div class="chat">
+				<div class="tab-content">
+					<!-- Start of Chat Room -->
+					<div class="tab-pane fade show active" id="chat1" role="tabpanel">
+						<div class="item">
+							<div class="content">
+								<div class="container">
+									<div class="top">
+										<div class="headline">
+											<img src="dist/img/face.jpg" alt="avatar">
+											<div class="content">
+												<h5>Quincy Hensen</h5>
+												<span>Away</span>
+											</div>
+										</div>
+									</div>
+								</div>
+								
+								<div class="middle" id="scroll">
+									<div class="container">
+							<!-- line chart canvas element -->
+										<canvas id="buyers" width="600" height="400"></canvas>
+										<!-- pie chart canvas element -->
+										<canvas id="countries" width="600" height="400"></canvas>
+										<!-- bar chart canvas element -->
+										<canvas id="income" width="600" height="400"></canvas>
+										
+										
+									</div>
+								</div>
+								 
+							</div>
+						 
+						</div>
+					</div>
+				 
+				</div>
+			</div>
+		 
+		</div>
+		<!-- Layout -->
+		<script src="dist/js/vendor/jquery-slim.min.js"></script>
+		<script src="dist/js/vendor/popper.min.js"></script>
+		<script src="dist/js/vendor/feather.min.js"></script>
+		<script src="dist/js/vendor/eva.min.js"></script>
+		<script src="dist/js/vendor/bootstrap.min.js"></script>
+		<script src="dist/js/swipe.min.js"></script>
+		<script>
+
+			function getRandomColor() {
+				var letters = '0123456789ABCDEF';
+				var color = '#';
+				for (var i = 0; i < 6; i++) {
+				color += letters[Math.floor(Math.random() * 16)];
+				}
+				return color;
+			}
+
+			function getTrackingData() {
+
+			    var xhttp = new XMLHttpRequest();
+			    let values     = [];
+			    let dataKeys   = [];
+			    try {
+					xhttp.open("GET", "http://localhost:9000/usage", false);
+					xhttp.send();
+					let data = JSON.parse(xhttp.responseText)
+					let keys = Object.keys(data);
+
+					for(var i = 0;i < keys.length;i++) {
+					    dataKeys.push(keys[i])
+					}
+
+					for(var j = 0;j < dataKeys.length;j++) {
+					    values.push(data[dataKeys[j]])
+					}
+
+					return [dataKeys , values]
+			    }
+			    catch(e) {
+			    	return [[],[]]
+			    }
+
+			}
+
+			function generatePieData(k , v) {
+				d = [];
+				for(var i = 0;i < k.length;i++) {
+					d.push({
+						value:v[i],
+						label:k[i],
+						color:getRandomColor()
+					})
+				}
+				return d;
+			}
+
+			var data = getTrackingData()
+			// line chart data
+			var buyerData = {
+				labels : data[0],
+				datasets : [
+				{
+					fillColor : "rgba(172,194,132,0.4)",
+					strokeColor : "#ACC26D",
+					pointColor : "#fff",
+					pointStrokeColor : "#9DB86D",
+					data : data[1]
+				}
+			]
+			}
+			// get line chart canvas
+			var buyers = document.getElementById('buyers').getContext('2d');
+			// draw line chart
+			new Chart(buyers).Line(buyerData);
+				
+
+
+
+			// pie chart data
+			var pieData = generatePieData(data[0],data[1]);
+			// pie chart options
+			var pieOptions = {
+					segmentShowStroke : false,
+					animateScale : true
+			}
+			// get pie chart canvas
+			var countries= document.getElementById("countries").getContext("2d");
+			// draw pie chart
+			new Chart(countries).Pie(pieData, pieOptions);
+			// bar chart data
+			
+
+
+
+			var barData = {
+				labels : data[0],
+				datasets : [
+					{
+						fillColor : "#48A497",
+						strokeColor : "#48A4D1",
+						data : data[1]
+					}
+				]
+			}
+			// get bar chart canvas
+			var income = document.getElementById("income").getContext("2d");
+			// draw bar chart
+			new Chart(income).Bar(barData);
+			
+
+		</script>
+	</body>
+</html>																																																										
