@@ -31,7 +31,7 @@
     </script>
 </head>
     <body>
-        <script type="text/javascript" src="index.js">    </script>
+        <!-- <script type="text/javascript" src="index.js">    </script> -->
 
 
         <div class="container-fluid">
@@ -124,7 +124,7 @@
             </div>
         </div>
 
-        <script>
+<!--         <script>
             // line chart data
             var buyerData = {
                 labels : ["January","February","March","April","May","June"],
@@ -190,9 +190,116 @@
             var income = document.getElementById("income").getContext("2d");
             // draw bar chart
             new Chart(income).Bar(barData);
+        </script> -->
+
+        <script>
+
+            function getRandomColor() {
+                var letters = '0123456789ABCDEF';
+                var color = '#';
+                for (var i = 0; i < 6; i++) {
+                color += letters[Math.floor(Math.random() * 16)];
+                }
+                return color;
+            }
+
+            function getTrackingData() {
+
+                var xhttp = new XMLHttpRequest();
+                let values     = [];
+                let dataKeys   = [];
+                try {
+                    xhttp.open("GET", "http://localhost:9000/usage", false);
+                    xhttp.send();
+                    let data = JSON.parse(xhttp.responseText)
+                    let keys = Object.keys(data);
+
+                    for(var i = 0;i < keys.length;i++) {
+                        dataKeys.push(keys[i])
+                    }
+
+                    for(var j = 0;j < dataKeys.length;j++) {
+                        values.push(data[dataKeys[j]])
+                    }
+
+                    return [dataKeys , values]
+                }
+                catch(e) {
+                    return [[],[]]
+                }
+
+            }
+
+            function generatePieData(k , v) {
+                d = [];
+                for(var i = 0;i < k.length;i++) {
+                    d.push({
+                        value:v[i],
+                        label:k[i],
+                        color:getRandomColor()
+                    })
+                }
+                return d;
+            }
+
+            var data = getTrackingData()
+            // line chart data
+            var buyerData = {
+                labels : data[0],
+                datasets : [
+                {
+                    fillColor : "rgba(172,194,132,0.4)",
+                    strokeColor : "#ACC26D",
+                    pointColor : "#fff",
+                    pointStrokeColor : "#9DB86D",
+                    data : data[1]
+                }
+            ]
+            }
+            // get line chart canvas
+            var buyers = document.getElementById('buyers').getContext('2d');
+            // draw line chart
+            new Chart(buyers).Line(buyerData);
+                
+
+
+
+            // pie chart data
+            var pieData = generatePieData(data[0],data[1]);
+            // pie chart options
+            var pieOptions = {
+                    segmentShowStroke : false,
+                    animateScale : true
+            }
+            // get pie chart canvas
+            var countries= document.getElementById("countries").getContext("2d");
+            // draw pie chart
+            new Chart(countries).Pie(pieData, pieOptions);
+            // bar chart data
+            
+
+
+
+            var barData = {
+                labels : data[0],
+                datasets : [
+                    {
+                        fillColor : "#48A497",
+                        strokeColor : "#48A4D1",
+                        data : data[1]
+                    }
+                ]
+            }
+            // get bar chart canvas
+            var income = document.getElementById("income").getContext("2d");
+            // draw bar chart
+            new Chart(income).Bar(barData);
+            
+
         </script>
 
-        <script type="text/javascript", src="index2.js"></script>
+
+        <!-- <script type="text/javascript", src="index2.js"></script> -->
         <script type="text/javascript" src="caret-js/caret.js"></script>
 
         <script src="https://static.codepen.io/assets/editor/live/css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js"></script>

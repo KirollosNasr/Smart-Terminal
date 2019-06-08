@@ -10,11 +10,11 @@ function sendQuery() {
         var json = JSON.parse(xhttp.responseText);
 
         if(json["statues"] == "1") {
-        	console.log("your command can't run probably")
+        	console.log("your command can't run probably") // error in running the command
         }
 
         if(json["statues"] == "0") {
-        	console.log("your command run successfully")
+        	console.log("your command run successfully") // command done
         }
     }
     catch(err) {
