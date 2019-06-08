@@ -36,11 +36,16 @@ def logData(query , reply , cmd) :
 @app.route('/text' , methods=["POST"])
 def text() :
 	query = request.data.decode('utf-8')
-	if query.replace(" ","") == "" : return "error has been detected";
-	(reply , command) = runner.exec(query);
+	# if query.replace(" ","") == "" : return "error has been detected";
+	(reply , command , statues) = runner.exec(query);
 	logData(query , reply, command);
-	speak(reply)
-	return reply;
+	if command not in ["cal" , "cal -y"] : speak(reply)
+	# return reply;
+	return jsonify({
+			"query"    : query,
+			"response" : reply,
+			"statues"  : statues
+		});
 
 
 
@@ -48,16 +53,18 @@ def text() :
 def voice() :
 	query = listen();
 	if query == "" :
-		speak("i can not hear you clearly, please speak again!"); 
+		speak("I can not hear you clearly, please speak again!"); 
 		return jsonify({
 			"query"    : "",
-			"response" : "i can not hear you clearly, please speak again!"});
-	(reply , command) = runner.exec(query);
+			"response" : "I can not hear you clearly, please speak again!",
+			"statues"  : "2"});
+	(reply , command , statues) = runner.exec(query);
 	logData(query , reply, command);
 	speak(reply)
 	return jsonify({
 			"query"    : query, 
-			"response" : reply
+			"response" : reply,
+			"statues"  : statues
 	});
 
 
@@ -74,7 +81,7 @@ def shutdown():
 
 @app.route('/usage', methods=["GET"])
 def getUsage() :
-	return jsonify(Collect().calculate());
+	return jsonify(runner.usage());
 
 
 @app.route("/test" , methods=["GET"])

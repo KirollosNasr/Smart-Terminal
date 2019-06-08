@@ -1,0 +1,99 @@
+body {
+	background: rgba(0,0,0,0.7);
+
+}
+input {
+	outline: none;
+	background-color: transparent;
+	margin: 0;
+	width: 47%;
+	caret-color: whitesmoke;
+	caret-shape: block;
+	font: inherit;
+	border: none;
+	color: inherit;
+}
+
+::-webkit-scrollbar {
+	width: 10px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+	background: rgba(0,0,0,0.3);
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+	background: rgba(0,0,0,0.5);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+	background: rgba(0,0,0,0.5);
+}
+.recbtn {
+	background-color: rgba(0,0,0,0.3); /* Green */
+	border: none;
+	width: 40px;
+	height: 40px;
+	font-size: 10px;
+	border-radius: 50%;
+	-webkit-transition-duration: 0.4s; /* Safari */
+	transition-duration: 0.4s;
+}
+.recbtn:hover {
+	background-color: rgba(0,0,0,0.1); /* Green */
+	color: green;
+}
+.btn img{
+	width: 10px;
+}
+
+/*.btn-boarder {
+	border: 2px solid #fff;
+	border-radius: 100%;
+}*/
+::placeholder {
+	color: rgba(255,255,255,0.2);
+}
+#console {
+	font-family: courier, monospace;
+	color: #fff;
+	width:750px;
+	margin-left:auto;
+	margin-right:auto;
+	margin-top:20px;
+	font-size:14px;
+}
+
+a {
+	color: #0bc;
+	text-decoration: none;
+}
+
+#a {
+	color: #0f0;
+}
+
+#c {
+	color: #0bc;
+}
+
+#b {
+	color: #ff0096;
+}
+
+#k {
+	animation: change 1s;
+}
+
+#op{
+	color: #888888
+}
+
+@keyframes change {
+	0%  { color:  #0f0; }
+	50% { color:  #0f0; }
+	99% { color: black; }
+}

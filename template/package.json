@@ -1,19 +1,22 @@
 {
-  "name": "Linuxs",
-  "version": "1.0.0",
-  "description": "Linux Assistant >>>>",
-  "main": "app.js",
+  "name": "electron-transparent-demo",
+  "version": "0.0.3",
+  "description": "A minimal Electron example of transparency",
+  "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "startWithTransparentOption": "electron --enable-transparent-visuals .",
+    "startWithAllOptions": "electron --enable-transparent-visuals --disable-gpu ."
   },
-  "auther": {
-    "Ahmed Elaseedy": "GUI Maker"
-  },
-  "dependencies": {
-    "electron": "^4.0.6",
-    "python-shell": "^1.0.7"
-  },
+  "keywords": [
+    "Electron",
+    "transparent",
+    "tutorial",
+    "transparency"
+  ],
+  "author": "Doom",
+  "license": "GPLv3",
   "devDependencies": {
-    "electron-rebuild": "^1.8.4"
+    "electron": "^4.0.5"
   }
 }

@@ -1,0 +1,27 @@
+.caretjs {
+    display: inline-block;
+    font-family: monospace;
+}
+
+.caretjs + span {
+    font-family: monospace;
+    background: transparent;
+    position: relative;
+    right: 0;
+    margin: 0;
+}
+
+.caretjs + span > span {
+
+}
+
+#caret1 {
+    background-color: transparent;
+    color: inherit;
+    outline: none;
+    margin: 0;
+    width: 80%;
+    font: inherit;
+    border: none;
+}
+

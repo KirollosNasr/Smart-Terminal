@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Smart Terminal</title>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+        <link href='https://fonts.googleapis.com/css?family=Roboto:400,300,100' rel='stylesheet' type='text/css'>
+        <link rel="shortcut icon" type="image/x-icon" href="https://static.codepen.io/assets/favicon/favicon-aec34940fbc1a6e787974dcd360f2c6b63348d4b1f4e06c77743096d55480f33.ico">
+        <link rel="mask-icon" type="" href="https://static.codepen.io/assets/favicon/logo-pin-8f3771b1072e3c38bd662872f6b673a722f4b3ca2421637d5596661b4e2132cc.svg" color="#111">
+        <link rel="stylesheet" type="text/css" href="css/index.css">
+        <link rel="stylesheet" type="text/css" href="css/navBar.css">
+        <link rel="stylesheet" type="text/css" href="caret-js/caret.css"/>
+        <link rel="stylesheet" type="text/css" href="index.css">
+
+
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+
+        <script>
+          window.console = window.console || function(t) {};
+        </script>
+        <script>
+          if (document.location.search.match(/type=embed/gi)) {
+            window.parent.postMessage("resize", "*");
+          }
+        </script>
+    </head>
+    <body>
+<!--
+        <script type="text/javascript" src="index.js">    </script>
+-->
+
+
+        <div class="container-fluid">
+            <div class="row">
+
+                <nav class="main-menu">
+                  <ul>
+                    <!--<li>
+                      <header class="fa avatar">
+                        <img src="img/face.png">
+                      </header>
+                    </li>-->
+                    <li class="has-subnav avatar">
+                      <img src="img/face3.png" class="fa fa-2x" style="width: 45px; height: 45px; border-radius: 100%; border: 4px solid #ffea92; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);">
+                        <span style="margin-left: 20px; color:#e2e2e2; font-weight: bold;">
+                            Smart Terminal
+                                    </span>
+
+                    </li>
+
+                    <li>
+                      <a href="http://justinfarrow.com">
+                        <i class="fa fas fa-terminal fa-2x"></i>
+                        <span class="nav-text">
+                                        Terminal
+                                    </span>
+                      </a>
+
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-bar-chart-o fa-2x"></i>
+                        <span class="nav-text">
+                                        Graphs and Statistics
+                                    </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-info fa-2x"></i>
+                        <span class="nav-text">
+                                        Documentation
+                                    </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fab fa-github fa-2x"></i>
+                        <span class="nav-text">
+                                        Source Code
+                                    </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                          <i class="fa fa-heart-o fa-2x"></i>
+                          <span class="nav-text">
+                                Donate
+                          </span>
+                      </a>
+                    </li>
+                  </ul>
+
+                  <ul class="logout">
+                    <li>
+                      <a href="#">
+                        <i class="fa fas fa-users fa-2x"></i>
+                        <span class="nav-text">
+                                        About Us
+                                    </span>
+                      </a>
+                    </li>
+                    <li>
+                      <a href="#">
+                        <i class="fa fa-power-off fa-2x"></i>
+                        <span class="nav-text">
+                                        Exit
+                                    </span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
+
+                <div class="col-sm-1">
+                </div>
+
+                <div class="col-sm-9">
+                    <div id="console">
+
+                        <div id="inputCMD">
+                            <span id="a"><strong>iskander@iskander-lenovo-G50-80</strong></span>:<span id="b">~</span><span id="c">$</span>
+                            <input id="userInput" type="text" autofocus>
+                            <button onclick="sendQuery()"  class="recbtn"><i class="glyphicon glyphicon-send" style="font-size:21px; margin-top: 5px; margin-right: 2px"></i></button>
+                            <button onclick="voiceQuery()"  class="recbtn"><i class="fa fa-microphone" style="font-size:23px"></i></button>
+                        </div>
+
+<!--                         <div id="CMDoutput">
+                            <div id="infoMsg">
+                                <span class="info"><strong>Info</strong></span> <span> Replace this text with your own text.</span>
+                            </div>
+                            <div id="errMsg">
+                                <span class="err"><strong>ERR</strong></span> <span>There is an error</span>
+                            </div>
+                            <div id="successMsg">
+                                <span class="success"><strong>Done</strong></span> <span>This is a success message. </span>
+                            </div>
+                            <div id="warnMsg">
+                                <span class="warn"><strong>Warning</strong></span> <span>This is warning MSG</span>
+                            </div>
+                        </div> -->
+
+                        <!--<span>&#10074;</span>-->
+
+                        <!--<span class="info"><strong>Info</strong></span> <span> Replace this text with your own text.</span>
+
+                        <br>
+
+                        <span id="a"><strong>iskander@iskander-lenovo-G50-80</strong></span>:<span id="b">~</span><span id="c">$</span>
+                        <input type="text" placeholder="Type your command...">
+                        <button class="recbtn"><i class="glyphicon glyphicon-send" style="font-size:21px; margin-top: 5px; margin-right: 2px"></i></button>
+                        <button class="recbtn"><i class="fa fa-microphone" style="font-size:23px"></i></button>
+
+                        <span class="success"><strong>Done</strong></span> <span>This is a success message. </span>
+
+                        <br>
+
+                        <span id="a"><strong>iskander@iskander-lenovo-G50-80</strong></span>:<span id="b">~</span><span id="c">$</span>
+                        <input type="text" placeholder="Type your command...">
+                        <button class="recbtn"><i class="glyphicon glyphicon-send" style="font-size:21px; margin-top: 5px; margin-right: 2px"></i></button>
+                        <button class="recbtn"><i class="fa fa-microphone" style="font-size:23px"></i></button>
+
+                        <span class="err"><strong>ERR</strong></span> <span>There is an error</span>
+
+                        <br>
+
+                        <span id="a"><strong>iskander@iskander-lenovo-G50-80</strong></span>:<span id="b">~</span><span id="c">$</span>
+                        <input type="text" placeholder="Type your command...">
+                        <button class="recbtn"><i class="glyphicon glyphicon-send" style="font-size:21px; margin-top: 5px; margin-right: 2px"></i></button>
+                        <button class="recbtn"><i class="fa fa-microphone" style="font-size:23px"></i></button>
+
+                        <span class="warn"><strong>Warning</strong></span> <span>This is warning MSG</span>
+
+                        <br>
+-->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+<!--
+        <script type="text/javascript", src="index2.js"></script>
+-->
+        <script type="text/javascript" src="caret-js/caret.js"></script>
+        <script type="text/javascript" src="js/script.js"></script>
+        <script src="https://static.codepen.io/assets/editor/live/css_reload-5619dc0905a68b2e6298901de54f73cefe4e079f65a75406858d92924b4938bf.js"></script>
+    </body>
+</html>
+
