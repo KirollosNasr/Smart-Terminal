@@ -2,7 +2,7 @@ from flask import Flask , jsonify , request;
 from os.path import join , sep , isfile;
 from speech.speech import speak , listen;
 from exec import Run;
-from monitor.files import rootFolder , subContent , ROOTPATH , FOLDERNAME , Time;
+from monitor.files import rootFolder , subContent , ROOTPATH , FOLDERNAME , Time , fullDate;
 
 def PATH() : return join(ROOTPATH , FOLDERNAME , Time.getYear() , Time.getMonth() , "log.csv");
 rootFolder();
@@ -22,7 +22,7 @@ def logData(query , reply , cmd) :
 		return False;
 	rootFolder();
 	subContent();
-	line = "{0},{1},{2},{3},{4}\n".format(query , reply , cmd , "{0}-{1}-{2}".format(Time.getYear() , Time.getMonth() , Time.getDay()) , Time.getTime());
+	line = "{0},{1},{2},{3}\n".format(query , reply , cmd , fullDate());
 	if not isfile(fl.name) or not fileName(fl.name) :
 		fl = open(PATH() ,"a");
 		fl.write(line);

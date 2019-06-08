@@ -2,6 +2,7 @@ from os.path import join, isdir, isfile
 from os import mkdir
 from time import strftime, localtime
 from os.path import split , expanduser , sep , join
+from datetime import datetime;
 
 class Time :
 	def getYear() : return strftime("%Y", localtime())
@@ -28,6 +29,19 @@ def logFile() :
 
 def isFileExists() : return isfile(join(ROOTPATH, FOLDERNAME, Time.getYear(), Time.getMonth(), Time.getDay()+".db"));
 
+def fullDate() : return datetime.now().strftime("%b %d. %Y , %I:%M %p")
 
 ROOTPATH = join(sep , "home" , getUserName())
 FOLDERNAME = "tracking"
+
+
+
+
+
+
+
+
+
+
+
+

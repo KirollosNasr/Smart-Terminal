@@ -1,0 +1,4 @@
+pip3 install fuzzyset
+pip3 install Flask
+pip3 install SpeechRecognition
+pip3 install scikit-learn 
