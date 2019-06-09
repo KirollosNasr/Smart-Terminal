@@ -1,7 +1,9 @@
 const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
-const MAIN_HTML = path.join('file://', __dirname, 'index.html');
+const INDEX_HTML = path.join('file://', __dirname, 'index.html');
+const LOADER_HTML = path.join('file://', __dirname, 'loader.html');
+
 const CHILD_PADDING = 50;
 
 const onAppReady = function () {
@@ -19,7 +21,7 @@ const onAppReady = function () {
     parent = null;
   });
 
-  parent.loadURL(MAIN_HTML);
+  parent.loadURL(LOADER_HTML);
 };
 
 //~ app.on('ready', onAppReady);
