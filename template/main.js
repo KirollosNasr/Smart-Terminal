@@ -13,17 +13,6 @@ const onAppReady = function () {
     icon: path.join(__dirname, 'img/face3.png')
   });
 
-
-
-const {PythonShell} = require("python-shell");
-//run server starter at each start 
-PythonShell.run("../lib/server.py", null, function(err , results){
-  if(err) {
-    
-  }
-});
-
-
   parent.setMenu(null)
 
   parent.once('close', () => {

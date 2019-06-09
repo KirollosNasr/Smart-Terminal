@@ -18,5 +18,8 @@
   "license": "GPLv3",
   "devDependencies": {
     "electron": "^4.0.5"
+  },
+  "dependencies": {
+    "python-shell": "^1.0.7"
   }
 }
