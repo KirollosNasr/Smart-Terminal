@@ -103,15 +103,14 @@ var view = (function () {
                             </div> `;*/
 
             let inputCmd = `<div id="inputCMD-${eid}">
-                                <span id="a"><strong>iskander@iskander-lenovo-G50-80</strong></span>:<span id="b">~</span><span id="c">$</span>
+                                <span id="a" class="glitch" data-text="GLITCH"><strong>${osUsername}@${osHostname}</strong></span>:<span id="b">~</span><span id="c">$</span>
                                 <input id="userInput-${eid}" type="text" autofocus>
-                                <button id="sendbtn-${eid}" class="recbtn"><i class="glyphicon glyphicon-send" style="font-size:17px; margin-top: 5px; margin-right: 2px"></i></button>
-                                <button id="recbtn-${eid}" class="recbtn"><i class="fa fa-microphone" style="font-size:17px"></i></button>
+                                <button id="sendbtn-${eid}" class="recbtn"><i id="a" class="glyphicon glyphicon-send" style="font-size:17px; margin-top: 5px; margin-right: 2px"></i></button>
+                                <button id="recbtn-${eid}" class="recbtn"><i id="a" class="fa fa-microphone" style="font-size:17px"></i></button>
                             </div>`
 
             // 2. Place it before end of it's parent
              document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', inputCmd);
-
 
             // 3. Add divID number
             inputCmdList.push(eid);
