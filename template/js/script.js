@@ -92,7 +92,7 @@ var view = (function () {
          *
          * @return {type} Description.
          */
-        diplayCmd: function (eid) {
+        displayCmd: function (eid) {
 
             // 1. Pick inputCmd Div
             /*let inputCmd = `<div id="inputCMD-${eid}">
@@ -104,16 +104,21 @@ var view = (function () {
 
             let inputCmd = `<div id="inputCMD-${eid}">
                                 <span id="a" class="glitch" data-text="GLITCH"><strong>${osUsername}@${osHostname}</strong></span>:<span id="b">~</span><span id="c">$</span>
-                                <input id="userInput-${eid}" type="text" autofocus>
+                                <input id="userInput-${eid}" type="text">
                                 <button id="sendbtn-${eid}" class="recbtn"><i id="a" class="glyphicon glyphicon-send" style="font-size:17px; margin-top: 5px; margin-right: 2px"></i></button>
                                 <button id="recbtn-${eid}" class="recbtn"><i id="a" class="fa fa-microphone" style="font-size:17px"></i></button>
-                            </div>`
+                            </div>`;
 
             // 2. Place it before end of it's parent
-             document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', inputCmd);
+            document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', inputCmd);
+            document.querySelector(`${DOMstrings.userInput}${eid}`).setAttribute('autofocus', '');
 
             // 3. Add divID number
             inputCmdList.push(eid);
+        },
+
+        displayCmdChild: function (){
+            let parent
         },
 
         /**
@@ -140,9 +145,41 @@ var view = (function () {
          */
         blockOldInputCmd: function (eid){
             // Blocks elements by id
-            document.querySelector(`${DOMstrings.userInput}${eid}`).setAttribute('disabled', 'disabled');
+            document.querySelector(`${DOMstrings.userInput}${eid}`).style.display = "none";
+            document.querySelector(`${DOMstrings.userInput}${eid}`).removeAttribute('autofocus');
             document.querySelector(`${DOMstrings.sendBtn}${eid}`).style.display = "none";
             document.querySelector(`${DOMstrings.recBtn}${eid}`).style.display = "none";
+
+            (eid === 0) ? console.log(`###########`): console.log('');
+        },
+
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
+        blockAllInputCmd: function (){
+            // Blocks elements by id
+            for (let i = 0; i < inputCmdList.length; i++){
+                document.querySelector(`${DOMstrings.cmdDiv}${i}`).style.display = "none";
+            }
         },
 
         /**
@@ -195,8 +232,30 @@ var view = (function () {
          */
         getInputCmdList: function () {
             return inputCmdList;
-        }
+        },
 
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
     }
 })();
 
@@ -209,12 +268,10 @@ var controller = (function (modelCtrl, viewCtrl) {
     var setupEventListeners = function () {
         var DOMstrings = viewCtrl.getDOMStrings();
 
-        console.log(`Iam ${DOMstrings.sendBtn}${inputCmdList.length - 1}`);
         document.querySelector(`${DOMstrings.sendBtn}${inputCmdList.length - 1}`).addEventListener('onclick', appendSend);
 
         document.addEventListener('keypress', function(event) {
             if (event.keyCode === 13 || event.which === 13) {
-
                 // 1. Check if input is emptu
                 if (document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value === "") {
 
@@ -222,11 +279,17 @@ var controller = (function (modelCtrl, viewCtrl) {
                     viewCtrl.blockOldInputCmd(inputCmdList[inputCmdList.length - 1]);
 
                     // 2. Display new one
-                    viewCtrl.diplayCmd(inputCmdList.length);
+                    viewCtrl.displayCmd(inputCmdList.length);
+                } else if (document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value === "clear") {
 
-                    // 3. se
-                } else {
-                    console.log("Iam Happy");
+                    console.log(`Arr=  ${inputCmdList}`);
+
+                    // 1. Loop over all input Cmd divs
+                    viewCtrl.blockAllInputCmd()
+
+                    // 2. Display new one
+                    viewCtrl.displayCmd(inputCmdList.length);
+
                 }
             }
         });
@@ -267,7 +330,7 @@ var controller = (function (modelCtrl, viewCtrl) {
           //modelCtrl.createServerConnection();
 
           // 2. Initial display for Cmd input
-          (inputCmdList.length === 0) ? viewCtrl.diplayCmd(0) : viewCtrl.diplayCmd(inputCmdList.length);
+          (inputCmdList.length === 0) ? viewCtrl.displayCmd(0) : viewCtrl.displayCmd(inputCmdList.length);
 
           // 3. Setup Event listenters
           setupEventListeners();
