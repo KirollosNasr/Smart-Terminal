@@ -18,6 +18,8 @@ const {PythonShell} = require("python-shell");
 
 var model = (function () {
 
+    let xhttp = new XMLHttpRequest();
+    let replyJSONmsg;
 
 
     return {
@@ -49,7 +51,46 @@ var model = (function () {
             PythonShell.run("../lib/server.py", null);
 
             return console.log(`Server Connected Successfully`)
+        },
+
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
+        textQueryReply: function (textQuery) {
+
+            try {
+                xhttp.open("POST", "http://localhost:9000/text", false);
+                xhttp.send(textQuery);
+
+                replyJSONmsg = JSON.parse(xhttp.responseText);
+
+            }
+            catch (e) {
+                replyJSONmsg["statues"] = "3"
+            }
+
+            return replyJSONmsg;
         }
+
     }
 })();
 
@@ -61,12 +102,15 @@ var view = (function () {
         sendBtn: '#sendbtn-',
         recBtn: '#recbtn-',
         userInput:'#userInput-',
+        cmdSpan:'#span-',
+        serverRes: '#CMDoutput-',
     };
 
     let osUsername = os.userInfo().username;
     let osHostname = os.hostname();
 
     let inputCmdList = [];
+    let serverResList = [];
 
     return {
 
@@ -95,17 +139,9 @@ var view = (function () {
         displayCmd: function (eid) {
 
             // 1. Pick inputCmd Div
-            /*let inputCmd = `<div id="inputCMD-${eid}">
-                                <span id="a"><strong>${osUsername}@${osHostname}</strong></span>:<span id="b">~</span><span id="c">$</span>
-                                <input id="${DOMstrings.userInput}${eid}" type="text" autofocus>
-                                <button id="${DOMstrings.sendBtn}${eid}" class="recbtn"><i class="glyphicon glyphicon-send" style="font-size:17px; margin-top: 5px; margin-right: 2px"></i></button>
-                                <button id="${DOMstrings.recBtn}${eid}" class="recbtn"><i class="fa fa-microphone" style="font-size:17px"></i></button>
-                            </div> `;*/
-
             let inputCmd = `<div id="inputCMD-${eid}">
-                                <span id="a" class="glitch" data-text="GLITCH"><strong>${osUsername}@${osHostname}</strong></span>:<span id="b">~</span><span id="c">$</span>
+                                <span id="span-${eid}" class="glitch a" data-text="GLITCH">${osUsername}@${osHostname}</span>:<span id="b">~</span><span id="c">$</span>
                                 <input id="userInput-${eid}" type="text">
-                                <button id="sendbtn-${eid}" class="recbtn"><i id="a" class="glyphicon glyphicon-send" style="font-size:17px; margin-top: 5px; margin-right: 2px"></i></button>
                                 <button id="recbtn-${eid}" class="recbtn"><i id="a" class="fa fa-microphone" style="font-size:17px"></i></button>
                             </div>`;
 
@@ -116,9 +152,71 @@ var view = (function () {
             // 3. Add divID number
             inputCmdList.push(eid);
         },
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
+        displayAppropriteRep: function (replyJSONmsg) {
 
-        displayCmdChild: function (){
-            let parent
+            let serverRespose, eid, warnRep, infoRep, succRep, errRep;
+
+            serverRespose = replyJSONmsg["response"];
+
+            (serverResList.length === 0) ? eid = 0 : eid = serverResList[serverResList.length -1] + 1;
+
+            warnRep= `<div id="CMDoutput-${eid}">
+                                <div id="warnMsg">
+                                    <span class="warn"><strong>WARNING:</strong></span> <span>${serverRespose}</span>
+                                </div>
+                            </div>`;
+
+            infoRep = `<div id="CMDoutput-${eid}">
+                                <div id="infoMsg">
+                                    <span class="info"><strong>INFO:</strong></span> <span>${serverRespose}</span>
+                                </div>
+                           </div>`;
+
+            succRep = `<div id="CMDoutput-${eid}">
+                                <div id="successMsg">
+                                    <span class="success"><strong>SUCCESS:</strong></span> <span>${serverRespose}</span>
+                                </div>
+                           </div>`;
+
+            errRep = `<div id="CMDoutput-${eid}">
+                            <div id="errMsg">
+                                <span class="err"><strong>ERROR:</strong></span> <span>${serverRespose}</span>
+                            </div> 
+                        </div>`;
+
+            if (replyJSONmsg["statues"] === '0') {
+                document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', succRep);
+            } else if (replyJSONmsg["statues"] === '1') {
+                document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', errRep);
+            } else if (replyJSONmsg["statues"] === '2') {
+                // TODO
+            } else if (replyJSONmsg["statues"] === '3') {
+                document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', errRep);
+            }
+
+            serverResList.push(eid);
         },
 
         /**
@@ -145,12 +243,46 @@ var view = (function () {
          */
         blockOldInputCmd: function (eid){
             // Blocks elements by id
-            document.querySelector(`${DOMstrings.userInput}${eid}`).style.display = "none";
-            document.querySelector(`${DOMstrings.userInput}${eid}`).removeAttribute('autofocus');
-            document.querySelector(`${DOMstrings.sendBtn}${eid}`).style.display = "none";
-            document.querySelector(`${DOMstrings.recBtn}${eid}`).style.display = "none";
+            document.querySelector(`${DOMstrings.userInput}${eid}`).setAttribute('disabled', '');
 
-            (eid === 0) ? console.log(`###########`): console.log('');
+            document.querySelector(`${DOMstrings.cmdSpan}${eid}`).removeAttribute('class');
+            document.querySelector(`${DOMstrings.cmdSpan}${eid}`).removeAttribute('data-text');
+            document.querySelector(`${DOMstrings.cmdSpan}${eid}`).setAttribute('class', 'a');
+
+            document.querySelector(`${DOMstrings.recBtn}${eid}`).style.display = "none";
+        },
+
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
+        blockOldEmptyInputCmd: function (eid){
+            // Blocks elements by id
+            document.querySelector(`${DOMstrings.userInput}${eid}`).style.display = "none";
+
+            document.querySelector(`${DOMstrings.cmdSpan}${eid}`).removeAttribute('class');
+            document.querySelector(`${DOMstrings.cmdSpan}${eid}`).removeAttribute('data-text');
+            document.querySelector(`${DOMstrings.cmdSpan}${eid}`).setAttribute('class', 'a');
+
+            document.querySelector(`${DOMstrings.recBtn}${eid}`).style.display = "none";
         },
 
         /**
@@ -177,8 +309,12 @@ var view = (function () {
          */
         blockAllInputCmd: function (){
             // Blocks elements by id
-            for (let i = 0; i < inputCmdList.length; i++){
+            for (let i = 0; i < inputCmdList.length; i++) {
                 document.querySelector(`${DOMstrings.cmdDiv}${i}`).style.display = "none";
+            }
+
+            for (let i = 0; i < serverResList.length; i++) {
+                document.querySelector(`${DOMstrings.serverRes}${i}`).style.display = "none";
             }
         },
 
@@ -256,6 +392,9 @@ var view = (function () {
          *
          * @return {type} Description.
          */
+        getResList: function () {
+            return serverResList;
+        }
     }
 })();
 
@@ -264,39 +403,56 @@ var view = (function () {
 var controller = (function (modelCtrl, viewCtrl) {
 
     let inputCmdList = viewCtrl.getInputCmdList();
+    let serverResList = viewCtrl.getResList();
 
     var setupEventListeners = function () {
         var DOMstrings = viewCtrl.getDOMStrings();
 
-        document.querySelector(`${DOMstrings.sendBtn}${inputCmdList.length - 1}`).addEventListener('onclick', appendSend);
-
-        document.addEventListener('keypress', function(event) {
+        document.addEventListener('keypress', (event) => {
             if (event.keyCode === 13 || event.which === 13) {
+
+                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value;
+
                 // 1. Check if input is emptu
-                if (document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value === "") {
+                if (inputText === "") {
 
                     // 1. Block input & Btns
-                    viewCtrl.blockOldInputCmd(inputCmdList[inputCmdList.length - 1]);
+                    viewCtrl.blockOldEmptyInputCmd(inputCmdList[inputCmdList.length - 1]);
 
                     // 2. Display new one
                     viewCtrl.displayCmd(inputCmdList.length);
-                } else if (document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value === "clear") {
+                } else if (inputText === "clear") {
 
                     console.log(`Arr=  ${inputCmdList}`);
 
                     // 1. Loop over all input Cmd divs
-                    viewCtrl.blockAllInputCmd()
+                    viewCtrl.blockAllInputCmd();
 
                     // 2. Display new one
                     viewCtrl.displayCmd(inputCmdList.length);
 
+                } else {
+                    appendTextQuery(inputText);
                 }
             }
         });
     };
 
-    var appendSend = function () {
-      console.log('Button has been clicked');
+    var appendTextQuery = function (inputText) {
+
+        let replyJSONmsg;
+
+        // 1. Call server for reply
+        replyJSONmsg = modelCtrl.textQueryReply(inputText);
+
+        // 2. View Appropriate reply
+        viewCtrl.displayAppropriteRep(replyJSONmsg);
+
+        // 3. Block old text
+        viewCtrl.blockOldInputCmd(inputCmdList[inputCmdList.length - 1]);
+
+        // 4. Display new one
+        viewCtrl.displayCmd(inputCmdList.length);
     };
 
     return {
@@ -327,7 +483,7 @@ var controller = (function (modelCtrl, viewCtrl) {
           console.log(' App has Started!');
 
           // 1. Initialize new server connection
-          //modelCtrl.createServerConnection();
+          modelCtrl.createServerConnection();
 
           // 2. Initial display for Cmd input
           (inputCmdList.length === 0) ? viewCtrl.displayCmd(0) : viewCtrl.displayCmd(inputCmdList.length);

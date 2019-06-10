@@ -6,7 +6,7 @@ input {
 	outline: none;
 	background-color: transparent;
 	margin: 0;
-	width: 47%;
+	width: 54%;
 	caret-color: whitesmoke;
 	caret-shape: block;
 	font: inherit;
@@ -67,28 +67,30 @@ input {
 	font-size:14px;
 }
 
+/*
 a {
 	color: #0bc;
 	text-decoration: none;
 }
+*/
 
-#a {
+.a {
 	color: #0f0;
 }
 
-#c {
+.c {
 	color: #0bc;
 }
 
-#b {
+.b {
 	color: #ff0096;
 }
 
-#k {
+.k {
 	animation: change 1s;
 }
 
-#op{
+.op{
 	color: #888888
 }
 
