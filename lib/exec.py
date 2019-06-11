@@ -46,32 +46,33 @@ class Run :
 						chdir(expanduser("~"));
 					else :
 						chdir(directory.strip('"'));
-				except : return ("Sorry, we can't change the directory to this path" , "cd {0}".format(directory) , "1")
+				except : return ("Sorry, we can't change the directory to this path" , "cd {0}".format(directory) , "1" , "0")
 				else :
-					return ("We change the working directory to {0}".format(getcwd()) , "cd {0}".format(directory) , "0")
+					return ("We change the working directory to {0}".format(getcwd()) , "cd {0}".format(directory) , "0" , "0")
 
 
 		try :
 			commandLiteral = "{0} {1}".format(command[0] , " ".join(command[1]));
 			output = self._run(commandLiteral)
 		except : 
-			return ("Sorry your command can not be executed correctly" , commandLiteral , "1");
+			return ("Sorry your command can not be executed correctly" , commandLiteral , "1" , "0");
 		else :
-			if command[0] in ['cal', 'cal -y', 'date', 'hostname -i','uname -a', 'uptime -p', 'whoami','uptime -p'] :
-				return (output.strip() , commandLiteral , "0");
-			elif command[0] == 'amixer -D pulse sset Master 50%+' : return ("Sound has raised 50%" , commandLiteral , "0")
-			elif command[0] == 'amixer -D pulse sset Master 50%-' : return ("Sound has lowed 50%" , commandLiteral , "0")
-			elif command[0] == 'eject' : return ("CD-ROM has opened" , commandLiteral , "0")
-			elif command[0] in ['mkdir','mkdir -m 777'] : return ("A new folder is created with name {0}".format(" ".join(command[1])) , commandLiteral , "0")
-			elif command[0] == "pkill" : return ("The process {0} is closed".format(" ".join(command[1])) , commandLiteral , "0")
-			elif command[0] == "poweroff" : return ("The computer is turing off now" , commandLiteral , "0")
-			elif command[0] == "reboot" : return ("Your computer will restart shortly" , commandLiteral , "0")
-			elif command[0] == "systemctl suspend" : return ("Your machine will sleep now" , commandLiteral , "0")
-			elif command[0] in ["rm" , "rm -r"] : return ("{0} has deleted".format(" ".join(command[1])) , commandLiteral , "0")
+			if command[0] in ['date', 'hostname -i','uname -a', 'uptime -p', 'whoami','uptime -p'] :
+				return (output.strip() , commandLiteral , "0" , "0");
+			elif command[0] in ['cal', 'cal -y'] : return (output.strip() , commandLiteral , "0" , "1");
+			elif command[0] == 'amixer -D pulse sset Master 50%+' : return ("Sound has raised 50%" , commandLiteral , "0" , "0")
+			elif command[0] == 'amixer -D pulse sset Master 50%-' : return ("Sound has lowed 50%" , commandLiteral , "0" , "0")
+			elif command[0] == 'eject' : return ("CD-ROM has opened" , commandLiteral , "0" , "0")
+			elif command[0] in ['mkdir','mkdir -m 777'] : return ("A new folder is created with name {0}".format(" ".join(command[1])) , commandLiteral , "0" , "0")
+			elif command[0] == "pkill" : return ("The process {0} is closed".format(" ".join(command[1])) , commandLiteral , "0" , "0")
+			elif command[0] == "poweroff" : return ("The computer is turing off now" , commandLiteral , "0" , "0")
+			elif command[0] == "reboot" : return ("Your computer will restart shortly" , commandLiteral , "0" , "0")
+			elif command[0] == "systemctl suspend" : return ("Your machine will sleep now" , commandLiteral , "0" , "0")
+			elif command[0] in ["rm" , "rm -r"] : return ("{0} has deleted".format(" ".join(command[1])) , commandLiteral , "0" , "0")
 
 	def usage(self , days) :
 		return Collect(days).getMonitoringData();
 
 
 if __name__ == "__main__" : 
-	print(Run().exec('what is the time'))
+	print(Run().exec('make a new folder "/home/grep/Desktop/JESUS_CHRiST"'))

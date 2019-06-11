@@ -14,7 +14,7 @@ app = Flask(__name__);
 runner = Run();
 speech = Speech();
 
-def logData(query , reply , cmd) :
+def logData(query , reply , cmd , statues) :
 	global fl;
 
 	def fileName(name) :
@@ -23,7 +23,7 @@ def logData(query , reply , cmd) :
 		return False;
 	rootFolder();
 	subContent();
-	line = "{0},{1},{2},{3}\n".format(query , reply , cmd , fullDate());
+	line = "{0},{1},{2},{3},{4}\n".format(query , reply , cmd , statues , fullDate());
 	if not isfile(fl.name) or not fileName(fl.name) :
 		fl = open(PATH() ,"a");
 		fl.write(line);
@@ -37,9 +37,10 @@ def logData(query , reply , cmd) :
 @app.route('/text' , methods=["POST"])
 def text() :
 	query = request.data.decode('utf-8')
-	(reply , command , statues) = runner.exec(query);
-	logData(query , reply, command);
-	if split(command)[0] != "cal" : speech.speak(reply)
+	(reply , command , statues , talkable) = runner.exec(query);
+	logData(query , reply, command , statues);
+	if talkable == "0" : speech.speak(reply)
+	speech.speak(reply);
 	return jsonify({
 			"query"    : query,
 			"response" : reply,
@@ -57,8 +58,9 @@ def voice() :
 			"query"    : "",
 			"response" : "I can not hear you clearly, please speak again!",
 			"statues"  : "2"});
-	(reply , command , statues) = runner.exec(query);
-	logData(query , reply, command);
+	(reply , command , statues , talkable) = runner.exec(query);
+	logData(query , reply, command , statues);
+	if talkable == "0" : speech.speak(reply);
 	speech.speak(reply)
 	return jsonify({
 			"query"    : query, 

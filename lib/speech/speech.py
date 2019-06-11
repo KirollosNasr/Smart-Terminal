@@ -3,6 +3,7 @@ from os import system , listdir;
 from os.path import join , isfile , isdir;
 from pathlib import Path;
 from threading import Thread;
+from re import sub;
 
 PATH  = str(Path(Path(__file__).resolve()).parent);
 VOICE = join(PATH , "voices" , 'cmu_us_slt.flitevox')
@@ -31,10 +32,11 @@ class Speech :
 	@staticmethod
 	def _speak(text) :
 		if not text.replace(" ","") == "" and isfile(VOICE) : 
-			system('flite -voice "{0}" -t "{1}"'.format(VOICE , text));
+			system('flite -voice "{0}" -t "{1}"'.format(VOICE , sub(r'[^a-zA-Z0-9\s\/\,\?\.]', ' ', text)));
 
 	def speak(self , text) : 
 		thrd = Thread(target=lambda : self._speak(text))
 		thrd.start(); 
+
 
 
