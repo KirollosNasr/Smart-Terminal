@@ -39,8 +39,8 @@ def text() :
 	query = request.data.decode('utf-8')
 	(reply , command , statues , talkable) = runner.exec(query);
 	logData(query , reply, command , statues);
-	if talkable == "0" : speech.speak(reply)
-	speech.speak(reply);
+	if talkable == "0" : 
+		speech.speak(reply)
 	return jsonify({
 			"query"    : query,
 			"response" : reply,
@@ -61,7 +61,6 @@ def voice() :
 	(reply , command , statues , talkable) = runner.exec(query);
 	logData(query , reply, command , statues);
 	if talkable == "0" : speech.speak(reply);
-	speech.speak(reply)
 	return jsonify({
 			"query"    : query, 
 			"response" : reply,

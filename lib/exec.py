@@ -75,4 +75,4 @@ class Run :
 
 
 if __name__ == "__main__" : 
-	print(Run().exec('make a new folder "/home/grep/Desktop/JESUS_CHRiST"'))
+	print(Run().exec('make a new folder "folder"'))
