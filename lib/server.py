@@ -1,17 +1,18 @@
 from flask import Flask , jsonify , request;
 from os.path import join , sep , isfile;
-from speech.speech import speak , listen;
+from speech.speech import Speech;
 from exec import Run;
 from monitor.files import rootFolder , subContent , ROOTPATH , FOLDERNAME , Time , fullDate;
+from shlex import split;
 
 def PATH() : return join(ROOTPATH , FOLDERNAME , Time.getYear() , Time.getMonth() , "log.csv");
 rootFolder();
 subContent();
 
-classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'date', 'hostname -i', 'mkdir','mkdir -m 777', 'pkill', 'poweroff', 'reboot', 'systemctl suspend','uname -a', 'uptime -p', 'whoami', 'eject', 'rm', 'rm -r','uptime -p']
 fl = open(PATH() ,"a");
 app = Flask(__name__);
 runner = Run();
+speech = Speech();
 
 def logData(query , reply , cmd) :
 	global fl;
@@ -36,11 +37,9 @@ def logData(query , reply , cmd) :
 @app.route('/text' , methods=["POST"])
 def text() :
 	query = request.data.decode('utf-8')
-	# if query.replace(" ","") == "" : return "error has been detected";
 	(reply , command , statues) = runner.exec(query);
 	logData(query , reply, command);
-	if command not in ["cal" , "cal -y"] : speak(reply)
-	# return reply;
+	if split(command)[0] != "cal" : speech.speak(reply)
 	return jsonify({
 			"query"    : query,
 			"response" : reply,
@@ -51,16 +50,16 @@ def text() :
 
 @app.route("/voice" , methods=["GET"])
 def voice() :
-	query = listen();
+	query = speech.listen();
 	if query == "" :
-		speak("I can not hear you clearly, please speak again!"); 
+		speech.speak("I can not hear you clearly, please speak again!"); 
 		return jsonify({
 			"query"    : "",
 			"response" : "I can not hear you clearly, please speak again!",
 			"statues"  : "2"});
 	(reply , command , statues) = runner.exec(query);
 	logData(query , reply, command);
-	speak(reply)
+	speech.speak(reply)
 	return jsonify({
 			"query"    : query, 
 			"response" : reply,
@@ -81,7 +80,7 @@ def shutdown():
 
 @app.route('/usage', methods=["GET"])
 def getUsage() :
-	return jsonify(runner.usage());
+	return jsonify(runner.usage(7));
 
 
 @app.route("/test" , methods=["GET"])

@@ -5,12 +5,12 @@ from monitor.files import *;
 from json import dumps;
 
 class Collect :
-	def __init__(self) :
+	def __init__(self , days) :
 		# start = "-".join(start);
 		# end   = "-".join(end);
 		# if not self._isDateAscending(start, end) : raise ValueError("data should be in ascending order");
 		
-		d = datetime.today() - timedelta(days=7)
+		d = datetime.today() - timedelta(days=days)
 		self.start = str(d).split()[0];
 		self.end   = Time.getYear() + "-" + Time.getMonth() + "-" + Time.getDay();
 		self.fileNames = self.getFilesName()
@@ -34,6 +34,24 @@ class Collect :
 				collected = d.append(d.get() , collected)
 		return collected
 				
+
+	def getMonitoringData(self) :
+		def getDateFromPath(path) :
+			names = path.split(sep)[-3:]
+			names[-1] = names[-1].split(".")[0];
+			return "-".join(names);
+		listedCollection = {};
+		summationCollection = {};
+		for path in self.fileNames :
+			if isfile(path) :
+				d = db(path);
+				singleValues = d.get();
+				summationCollection = d.append(singleValues , summationCollection , 0);
+				for key in singleValues : 
+					singleValues[key] = [(singleValues[key] , getDateFromPath(path))];
+				listedCollection = d.append(singleValues , listedCollection , []);
+		return {"total" : summationCollection , "listed" : listedCollection}
+
 
 	@staticmethod
 	def _isDateAscending(d1, d2) :

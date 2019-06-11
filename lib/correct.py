@@ -1,4 +1,5 @@
 from re import split;
+from dill import load
 
 def normalizeQuery(query , minScore , model) :
 	#query = query.lower();
@@ -28,4 +29,4 @@ def normalizeQuery(query , minScore , model) :
 	return (fixed , quoted);
 
 
-# print(normalizeQuery('remv a dectory named , "folder name" '  , 0.65 , load(open("solving.bin","rb"))));
+# print(normalizeQuery('remv a dectory named , "Folder name" '  , 0.65 , load(open("../data/models/correction.bin","rb"))));
