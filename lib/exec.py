@@ -38,30 +38,30 @@ class Run :
 
 		if command[0].strip() == "cd" :
 			args = command[1].strip("\""); 
-			if args == "" : return ("sorry, please give me a correct directory" , "cd");
+			if args == "" : return ("Sorry, please give me a correct directory." , "cd");
 			else :
 				try :
 					chdir(args);
-				except : return ("sorry, we can't change the directory to this path" , "cd" + " " + args)
+				except : return ("Sorry, we can't change the directory to this path" , "cd" + " " + args)
 				else :
-					return ("we change the working directory to {0}".format(args) , "cd" + " " + args)
+					return ("We change the working directory to {0}".format(args) , "cd" + " " + args)
 
 
 		try :
 			output = self._run(command[0] + " " + command[1])
 		except : 
-			return ("sorry your command can't be executed correctly" , command[0] + " " + command[1] , "1");
+			return ("Sorry your command can't be executed correctly" , command[0] + " " + command[1] , "1");
 		else :
 			if command[0] in ['cal', 'cal -y', 'date', 'hostname -i','uname -a', 'uptime -p', 'whoami','uptime -p'] :
 				return (output.strip() , command[0] + " " + command[1] , "0");
-			elif command[0] == 'amixer -D pulse sset Master 50%+' : return ("the sound has raised 50%" , command[0] + " " + command[1] , "0")
-			elif command[0] == 'amixer -D pulse sset Master 50%-' : return ("the sound has lowed 50%" , command[0] + " " + command[1] , "0")
-			elif command[0] == 'eject' : return ("your cd-rom has opened" , command[0] + " " + command[1] , "0")
-			elif command[0] in ['mkdir','mkdir -m 777'] : return ("a new folder is created with name {0}".format(command[1]) , command[0] + " " + command[1] , "0")
-			elif command[0] == "pkill" : return ("the process {0} is closed".format(command[1]) , command[0] + " " + command[1] , "0")
-			elif command[0] == "poweroff" : return ("the computer is turing off now" , command[0] + " " + command[1] , "0")
-			elif command[0] == "reboot" : return ("your computer will restart shortly" , command[0] + " " + command[1] , "0")
-			elif command[0] == "systemctl suspend" : return ("your machine will sleep now" , command[0] + " " + command[1] , "0")
+			elif command[0] == 'amixer -D pulse sset Master 50%+' : return ("Sound has raised 50%" , command[0] + " " + command[1] , "0")
+			elif command[0] == 'amixer -D pulse sset Master 50%-' : return ("Sound has lowed 50%" , command[0] + " " + command[1] , "0")
+			elif command[0] == 'eject' : return ("Cd-rom has opened" , command[0] + " " + command[1] , "0")
+			elif command[0] in ['mkdir','mkdir -m 777'] : return ("A new folder is created with name {0}".format(command[1]) , command[0] + " " + command[1] , "0")
+			elif command[0] == "pkill" : return ("The process {0} is closed".format(command[1]) , command[0] + " " + command[1] , "0")
+			elif command[0] == "poweroff" : return ("The computer is turing off now" , command[0] + " " + command[1] , "0")
+			elif command[0] == "reboot" : return ("Your computer will restart shortly" , command[0] + " " + command[1] , "0")
+			elif command[0] == "systemctl suspend" : return ("Your machine will sleep now" , command[0] + " " + command[1] , "0")
 			elif command[0] in ["rm" , "rm -r"] : return ("{0} has deleted".format(command[1]) , command[0] + " " + command[1] , "0")
 
 	def usage(self) :

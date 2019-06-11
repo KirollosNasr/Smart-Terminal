@@ -16,9 +16,8 @@ const os = require(`os`);
 const {PythonShell} = require("python-shell");
 
 
-var model = (function () {
+var model = (function (viewCtrl) {
 
-    let xhttp = new XMLHttpRequest();
     let replyJSONmsg;
 
 
@@ -77,20 +76,66 @@ var model = (function () {
          */
         textQueryReply: function (textQuery) {
 
+            let xhttp = new XMLHttpRequest();
             try {
                 xhttp.open("POST", "http://localhost:9000/text", false);
                 xhttp.send(textQuery);
 
                 replyJSONmsg = JSON.parse(xhttp.responseText);
-
             }
             catch (e) {
-                replyJSONmsg["statues"] = "3"
+                replyJSONmsg["statues"] = '4';
             }
 
             return replyJSONmsg;
-        }
+        },
 
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
+        startRecordingSound: function () {
+
+            let xhttp = new XMLHttpRequest();
+            xhttp.onreadystatechange = function() {
+                if (this.readyState == 4 && this.status == 200) {
+                    try {
+                        replyJSONmsg = JSON.parse(xhttp.responseText);
+
+                        // TODO 'Search for Asyc variables scope'
+                    }
+                    catch (e) {
+                        console.log(e);
+                    }
+                }
+            };
+
+            try {
+                xhttp.open("GET", "http://localhost:9000/voice", true);
+                xhttp.send();
+            }
+            catch(err) {
+                console.log("error in connection");
+            }
+        }
     }
 })();
 
@@ -142,7 +187,10 @@ var view = (function () {
             let inputCmd = `<div id="inputCMD-${eid}">
                                 <span id="span-${eid}" class="glitch a" data-text="GLITCH">${osUsername}@${osHostname}</span>:<span id="b">~</span><span id="c">$</span>
                                 <input id="userInput-${eid}" type="text">
+                                
+                                <button  id="sendbtn-${eid}" class="recbtn" style="display: none"><i class="a glyphicon glyphicon-send" style="font-size:13px; "></i></button>
                                 <button id="recbtn-${eid}" class="recbtn"><i id="a" class="fa fa-microphone" style="font-size:17px"></i></button>
+                                
                             </div>`;
 
             // 2. Place it before end of it's parent
@@ -206,14 +254,19 @@ var view = (function () {
                             </div> 
                         </div>`;
 
+            console.log("NOt hereee")
             if (replyJSONmsg["statues"] === '0') {
                 document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', succRep);
             } else if (replyJSONmsg["statues"] === '1') {
                 document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', errRep);
             } else if (replyJSONmsg["statues"] === '2') {
-                // TODO
+                document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', infoRep);
             } else if (replyJSONmsg["statues"] === '3') {
+                // TODO 'Model Not Understood'
+            } else if (replyJSONmsg["statues"] === '4') {
                 document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', errRep);
+            } else {
+                console.log("There is a big fucken error")
             }
 
             serverResList.push(eid);
@@ -340,6 +393,61 @@ var view = (function () {
          *
          * @return {type} Description.
          */
+        showMicBtn: function (eid) {
+            document.querySelector(`${DOMstrings.sendBtn}${eid}`).style.display = 'none';
+            document.querySelector(`${DOMstrings.recBtn}${eid}`).removeAttribute('style');
+        },
+
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
+        showSendBtn: function (eid) {
+            document.querySelector(`${DOMstrings.recBtn}${eid}`).style.display = 'none';
+            document.querySelector(`${DOMstrings.sendBtn}${eid}`).removeAttribute('style');
+        },
+
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
+
         getDOMStrings: function () {
             return DOMstrings;
         },
@@ -402,16 +510,29 @@ var view = (function () {
 
 var controller = (function (modelCtrl, viewCtrl) {
 
-    let inputCmdList = viewCtrl.getInputCmdList();
-    let serverResList = viewCtrl.getResList();
+    let inputCmdList, serverResList, replyJSONmsg;
 
-    var setupEventListeners = function () {
-        var DOMstrings = viewCtrl.getDOMStrings();
+    inputCmdList = viewCtrl.getInputCmdList();
+    serverResList = viewCtrl.getResList();
+
+    let setupEventListeners = function () {
+
+        let DOMstrings = viewCtrl.getDOMStrings();
+
+        /*document.querySelector(`${DOMstrings.userInput}${inputCmdList[inputCmdList.length - 1]}`).addEventListener('input', () => {
+            if (document.querySelector(`${DOMstrings.userInput}${inputCmdList[inputCmdList.length - 1]}`).value === "") {
+                viewCtrl.showMicBtn(inputCmdList[inputCmdList.length - 1]);
+            } else {
+                viewCtrl.showSendBtn(inputCmdList[inputCmdList.length - 1]);
+            }
+        });*/
+
+        document.querySelector(`${DOMstrings.recBtn}${inputCmdList[inputCmdList.length - 1]}`).addEventListener('click', appendSoundQuery);
 
         document.addEventListener('keypress', (event) => {
             if (event.keyCode === 13 || event.which === 13) {
 
-                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value;
+                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value.toLowerCase();
 
                 // 1. Check if input is emptu
                 if (inputText === "") {
@@ -438,12 +559,28 @@ var controller = (function (modelCtrl, viewCtrl) {
         });
     };
 
-    var appendTextQuery = function (inputText) {
+    let checkInputText = function () {
 
-        let replyJSONmsg;
+    };
 
+    let appendTextQuery = function (inputText) {
         // 1. Call server for reply
         replyJSONmsg = modelCtrl.textQueryReply(inputText);
+
+        // 2. View Appropriate reply
+        viewCtrl.displayAppropriteRep(replyJSONmsg);
+
+        // 3. Block old text
+        viewCtrl.blockOldInputCmd(inputCmdList[inputCmdList.length - 1]);
+
+        // 4. Display new one
+        viewCtrl.displayCmd(inputCmdList.length);
+    };
+
+    let appendSoundQuery = function () {
+
+        // 1. Call server for reply
+        replyJSONmsg = modelCtrl.startRecordingSound();
 
         // 2. View Appropriate reply
         viewCtrl.displayAppropriteRep(replyJSONmsg);
@@ -491,7 +628,7 @@ var controller = (function (modelCtrl, viewCtrl) {
           // 3. Setup Event listenters
           setupEventListeners();
 
-      },
+      }
     }
 })(model, view);
 
