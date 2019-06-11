@@ -139,6 +139,13 @@ var model = (function (viewCtrl) {
     }
 })();
 
+// TODO 'Display Active'
+// TODO 'Colors Option'
+// TODO 'Sound Reply Msg'
+// TODO 'When server down, the last msg executed'
+// TODO '~$'
+// TODO 'Check current after each execution'
+
 var view = (function () {
 
     let DOMstrings = {
@@ -532,7 +539,7 @@ var controller = (function (modelCtrl, viewCtrl) {
         document.addEventListener('keypress', (event) => {
             if (event.keyCode === 13 || event.which === 13) {
 
-                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value.toLowerCase();
+                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value;
 
                 // 1. Check if input is emptu
                 if (inputText === "") {

@@ -3,10 +3,9 @@
   <component name="ChangeListManager">
     <list default="true" id="1da2255f-44ed-4fbc-86f5-3435ef74f2bd" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/exec.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/exec.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/template/css/glitchedText.css" beforeDir="false" afterPath="$PROJECT_DIR$/template/css/glitchedText.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/template/css/index.css" beforeDir="false" afterPath="$PROJECT_DIR$/template/css/index.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/template/graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/graph.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/template/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/template/js/script.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/template/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/template/main.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,73 +17,47 @@
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
   <component name="FileEditorManager">
-    <splitter split-orientation="horizontal" split-proportion="0.111394554">
-      <split-first>
-        <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
-            <entry file="file://$PROJECT_DIR$/template/js/script.js">
-              <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="8475">
-                  <caret line="565" column="48" selection-start-line="565" selection-start-column="48" selection-end-line="565" selection-end-column="48" />
-                  <folding>
-                    <element signature="n#style#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-                    <element signature="n#style#0;n#i#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-                  </folding>
-                </state>
-              </provider>
-            </entry>
-          </file>
-        </leaf>
-      </split-first>
-      <split-second>
-        <splitter split-orientation="vertical" split-proportion="0.78816795">
-          <split-first>
-            <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-              <file pinned="false" current-in-tab="false">
-                <entry file="file://$PROJECT_DIR$/template/js/script.js">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="-45">
-                      <caret line="89" column="31" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="31" />
-                      <folding>
-                        <element signature="n#style#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-                        <element signature="n#style#0;n#i#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-                        <element signature="n#style#0;n#i#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-                      </folding>
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-              <file pinned="false" current-in-tab="true">
-                <entry file="file://$PROJECT_DIR$/template/css/glitchedText.css">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="90">
-                      <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-            </leaf>
-          </split-first>
-          <split-second>
-            <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-              <file pinned="false" current-in-tab="true">
-                <entry file="file://$PROJECT_DIR$/template/js/script.js">
-                  <provider selected="true" editor-type-id="text-editor">
-                    <state relative-caret-position="12">
-                      <caret line="190" column="155" selection-start-line="190" selection-start-column="155" selection-end-line="190" selection-end-column="155" />
-                      <folding>
-                        <element signature="n#style#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-                        <element signature="n#style#0;n#i#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-                      </folding>
-                    </state>
-                  </provider>
-                </entry>
-              </file>
-            </leaf>
-          </split-second>
-        </splitter>
-      </split-second>
-    </splitter>
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/template/js/script.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="230">
+              <caret line="147" selection-start-line="147" selection-end-line="147" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/template/main.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="210">
+              <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/template/graph.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1305">
+              <caret line="87" column="27" selection-start-line="87" selection-start-column="27" selection-end-line="87" selection-end-column="27" />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/template/index.html">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1455">
+              <caret line="97" column="25" selection-start-line="90" selection-start-column="20" selection-end-line="97" selection-end-column="25" />
+              <folding>
+                <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -104,13 +77,13 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/template/graph.html" />
-        <option value="$PROJECT_DIR$/template/main.js" />
         <option value="$PROJECT_DIR$/template/loader.html" />
         <option value="$PROJECT_DIR$/template/index.html" />
         <option value="$PROJECT_DIR$/template/css/index.css" />
-        <option value="$PROJECT_DIR$/template/js/script.js" />
         <option value="$PROJECT_DIR$/template/css/glitchedText.css" />
+        <option value="$PROJECT_DIR$/template/main.js" />
+        <option value="$PROJECT_DIR$/template/graph.html" />
+        <option value="$PROJECT_DIR$/template/js/script.js" />
       </list>
     </option>
   </component>
@@ -125,7 +98,6 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -136,23 +108,13 @@
             <path>
               <item name="Smart-Terminal" type="b2602c69:ProjectViewProjectNode" />
               <item name="Smart-Terminal" type="462c0819:PsiDirectoryNode" />
-              <item name="lib" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Smart-Terminal" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Smart-Terminal" type="462c0819:PsiDirectoryNode" />
               <item name="template" type="462c0819:PsiDirectoryNode" />
-            </path>
-            <path>
-              <item name="Smart-Terminal" type="b2602c69:ProjectViewProjectNode" />
-              <item name="Smart-Terminal" type="462c0819:PsiDirectoryNode" />
-              <item name="template" type="462c0819:PsiDirectoryNode" />
-              <item name="css" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
         </subPane>
       </pane>
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -197,14 +159,16 @@
       <workItem from="1560119707233" duration="25459000" />
       <workItem from="1560203394710" duration="809000" />
       <workItem from="1560204763293" duration="254000" />
-      <workItem from="1560205114145" duration="6728000" />
+      <workItem from="1560205114145" duration="8607000" />
+      <workItem from="1560272975329" duration="558000" />
+      <workItem from="1560278197868" duration="599000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="52600000" />
+    <option name="totallyTimeSpent" value="55636000" />
   </component>
-  <component name="TodoView">
+  <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
       <is-autoscroll-to-source value="true" />
     </todo-panel>
@@ -214,9 +178,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="67" y="25" width="1299" height="743" extended-state="6" />
+    <frame x="0" y="-2" width="1299" height="743" extended-state="6" />
+    <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.07836991" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.22727273" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -225,10 +190,10 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="6" weight="0.048859935" />
+      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.47068405" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
-      <window_info active="true" anchor="bottom" id="Terminal" order="9" visible="true" weight="0.252443" />
+      <window_info anchor="bottom" id="Terminal" order="9" weight="0.25118482" />
       <window_info anchor="bottom" id="Event Log" order="10" side_tool="true" />
       <window_info anchor="right" id="Commander" internal_type="SLIDING" order="0" type="SLIDING" weight="0.4" />
       <window_info anchor="right" id="Ant Build" order="1" weight="0.25" />
@@ -239,13 +204,6 @@
     <option name="version" value="1" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/template/main.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="345">
-          <caret line="23" column="27" selection-start-line="23" selection-start-column="27" selection-end-line="23" selection-end-column="27" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/template/css/loader.css">
       <provider selected="true" editor-type-id="text-editor" />
     </entry>
@@ -258,13 +216,6 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/template/package.json">
       <provider selected="true" editor-type-id="text-editor" />
-    </entry>
-    <entry file="file://$PROJECT_DIR$/template/graph.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1200">
-          <caret line="72" column="105" selection-start-line="72" selection-start-column="105" selection-end-line="72" selection-end-column="105" />
-        </state>
-      </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/.gitignore">
       <provider selected="true" editor-type-id="text-editor" />
@@ -282,16 +233,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/template/index.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="205">
-          <caret line="133" column="86" lean-forward="true" selection-start-line="133" selection-end-line="134" />
-          <folding>
-            <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/template/caret-js/caret.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="8">
@@ -299,22 +240,41 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/template/js/script.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-45">
-          <caret line="89" column="31" selection-start-line="89" selection-start-column="19" selection-end-line="89" selection-end-column="31" />
-          <folding>
-            <element signature="n#style#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#i#0;n#button#0;n#div#0;n#!!top" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/template/css/glitchedText.css">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="90">
           <caret line="6" lean-forward="true" selection-start-line="6" selection-end-line="6" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template/js/script.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="230">
+          <caret line="147" selection-start-line="147" selection-end-line="147" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template/main.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="210">
+          <caret line="14" column="41" selection-start-line="14" selection-start-column="41" selection-end-line="14" selection-end-column="41" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template/graph.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1305">
+          <caret line="87" column="27" selection-start-line="87" selection-start-column="27" selection-end-line="87" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/template/index.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1455">
+          <caret line="97" column="25" selection-start-line="90" selection-start-column="20" selection-end-line="97" selection-end-column="25" />
+          <folding>
+            <element signature="n#style#0;n#span#0;n#li#0;n#ul#0;n#nav#0;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
