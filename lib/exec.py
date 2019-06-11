@@ -3,7 +3,8 @@ from dill import load as cload;
 from subprocess import Popen , PIPE;
 from correct import normalizeQuery;
 from monitor.analysis import Collect;
-from os import chdir;
+from os import chdir , getcwd;
+from os.path import expanduser;
 
 classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'date', 'hostname -i', 'mkdir','mkdir -m 777', 'pkill', 'poweroff', 'reboot', 'systemctl suspend','uname -a', 'uptime -p', 'whoami', 'eject', 'rm', 'rm -r','uptime -p']
 
@@ -30,43 +31,48 @@ class Run :
 		result  = result[0]
 		cmd = classes[result];
 		
-		return (cmd  , " ".join(quotedwords));
+		return (cmd  , quotedwords);
 
 
 	def exec(self, query) :
 		command = self._predict(query);
 
 		if command[0].strip() == "cd" :
-			args = command[1].strip("\""); 
-			if args == "" : return ("Sorry, please give me a correct directory." , "cd");
+			if len(command[1]) != 1  : return ("Sorry, please give me a correct directory." , "cd {0}".format(" ".join(command[1])) , "1");
 			else :
+				directory = command[1][0];
 				try :
-					chdir(args);
-				except : return ("Sorry, we can't change the directory to this path" , "cd" + " " + args)
+					if directory.strip('"').strip() == "~" : 
+						chdir(expanduser("~"));
+					else :
+						chdir(directory.strip('"'));
+				except : return ("Sorry, we can't change the directory to this path" , "cd {0}".format(directory) , "1" , "0")
 				else :
-					return ("We change the working directory to {0}".format(args) , "cd" + " " + args)
+					return ("We change the working directory to {0}".format(getcwd()) , "cd {0}".format(directory) , "0" , "0")
 
 
 		try :
-			output = self._run(command[0] + " " + command[1])
+			commandLiteral = "{0} {1}".format(command[0] , " ".join(command[1]));
+			output = self._run(commandLiteral)
 		except : 
-			return ("Sorry your command can't be executed correctly" , command[0] + " " + command[1] , "1");
+			return ("Sorry your command can not be executed correctly" , commandLiteral , "1" , "0");
 		else :
-			if command[0] in ['cal', 'cal -y', 'date', 'hostname -i','uname -a', 'uptime -p', 'whoami','uptime -p'] :
-				return (output.strip() , command[0] + " " + command[1] , "0");
-			elif command[0] == 'amixer -D pulse sset Master 50%+' : return ("Sound has raised 50%" , command[0] + " " + command[1] , "0")
-			elif command[0] == 'amixer -D pulse sset Master 50%-' : return ("Sound has lowed 50%" , command[0] + " " + command[1] , "0")
-			elif command[0] == 'eject' : return ("Cd-rom has opened" , command[0] + " " + command[1] , "0")
-			elif command[0] in ['mkdir','mkdir -m 777'] : return ("A new folder is created with name {0}".format(command[1]) , command[0] + " " + command[1] , "0")
-			elif command[0] == "pkill" : return ("The process {0} is closed".format(command[1]) , command[0] + " " + command[1] , "0")
-			elif command[0] == "poweroff" : return ("The computer is turing off now" , command[0] + " " + command[1] , "0")
-			elif command[0] == "reboot" : return ("Your computer will restart shortly" , command[0] + " " + command[1] , "0")
-			elif command[0] == "systemctl suspend" : return ("Your machine will sleep now" , command[0] + " " + command[1] , "0")
-			elif command[0] in ["rm" , "rm -r"] : return ("{0} has deleted".format(command[1]) , command[0] + " " + command[1] , "0")
+			if command[0] in ['date', 'hostname -i','uname -a', 'uptime -p', 'whoami','uptime -p'] :
+				return (output.strip() , commandLiteral , "0" , "0");
+			elif command[0] in ['cal', 'cal -y'] : return (output.strip() , commandLiteral , "0" , "1");
+			elif command[0] == 'amixer -D pulse sset Master 50%+' : return ("Sound has raised 50%" , commandLiteral , "0" , "0")
+			elif command[0] == 'amixer -D pulse sset Master 50%-' : return ("Sound has lowed 50%" , commandLiteral , "0" , "0")
+			elif command[0] == 'eject' : return ("CD-ROM has opened" , commandLiteral , "0" , "0")
+			elif command[0] in ['mkdir','mkdir -m 777'] : return ("A new folder is created with name {0}".format(" ".join(command[1])) , commandLiteral , "0" , "0")
+			elif command[0] == "pkill" : return ("The process {0} is closed".format(" ".join(command[1])) , commandLiteral , "0" , "0")
+			elif command[0] == "poweroff" : return ("The computer is turing off now" , commandLiteral , "0" , "0")
+			elif command[0] == "reboot" : return ("Your computer will restart shortly" , commandLiteral , "0" , "0")
+			elif command[0] == "systemctl suspend" : return ("Your machine will sleep now" , commandLiteral , "0" , "0")
+			elif command[0] in ["rm" , "rm -r"] : return ("{0} has deleted".format(" ".join(command[1])) , commandLiteral , "0" , "0")
 
-	def usage(self) :
-		return Collect().calculate();
+	def usage(self , days) :
+		return Collect(days).getMonitoringData();
 
 
 if __name__ == "__main__" : 
-	print(Run().exec(''))
+	print(Run().exec('make a new folder "folder"'))

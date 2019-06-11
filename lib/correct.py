@@ -1,4 +1,5 @@
 from re import split;
+from dill import load
 
 def normalizeQuery(query , minScore , model) :
 	#query = query.lower();
@@ -12,8 +13,8 @@ def normalizeQuery(query , minScore , model) :
 		return (nonQuoted , quoted)
 
 	if query.replace(" ","") == "" : return ([],[]);
-	words = list(filter(lambda w : w.replace(" ","") != "" , split("""("[^"]*"|[A-Za-z01-9%\'?']+)+""" , query.strip())  ));
-	
+	words = list(filter(lambda w : len(w.replace(" ","")) > 1 , split("""("[^"]*"|[A-Za-z01-9%\'?']+)+""" , query.strip())  ));
+
 	if words == [] : return ([],[]);
 	(words , quoted) = separate(words);
 	if len(quoted) > 1 : return ([],[]);
@@ -28,4 +29,4 @@ def normalizeQuery(query , minScore , model) :
 	return (fixed , quoted);
 
 
-# print(normalizeQuery('remv a dectory named , "folder name" '  , 0.65 , load(open("solving.bin","rb"))));
+# print(normalizeQuery('make a new folder "new folder"'  , 0.65 , load(open("../data/models/correction.bin","rb"))));

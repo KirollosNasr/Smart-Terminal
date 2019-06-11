@@ -2,10 +2,13 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="1da2255f-44ed-4fbc-86f5-3435ef74f2bd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/template/graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/graph.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/speech/christ" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/correct.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/correct.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/exec.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/exec.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/monitor/analysis.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/monitor/analysis.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/server.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/server.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/speech/speech.py" beforeDir="false" afterPath="$PROJECT_DIR$/lib/speech/speech.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/template/js/script.js" beforeDir="false" afterPath="$PROJECT_DIR$/template/js/script.js" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/template/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/template/main.js" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -21,8 +24,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/template/js/script.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="230">
-              <caret line="147" selection-start-line="147" selection-end-line="147" />
+            <state relative-caret-position="-281">
+              <caret line="543" column="16" selection-start-line="543" selection-start-column="16" selection-end-line="543" selection-end-column="16" />
             </state>
           </provider>
         </entry>
@@ -161,12 +164,12 @@
       <workItem from="1560204763293" duration="254000" />
       <workItem from="1560205114145" duration="8607000" />
       <workItem from="1560272975329" duration="558000" />
-      <workItem from="1560278197868" duration="599000" />
+      <workItem from="1560278197868" duration="792000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="55636000" />
+    <option name="totallyTimeSpent" value="55829000" />
   </component>
   <component name="TodoView" selected-index="1">
     <todo-panel id="selected-file">
@@ -190,7 +193,7 @@
       <window_info anchor="bottom" id="Debug" order="3" weight="0.4" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
-      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.47068405" />
+      <window_info active="true" anchor="bottom" id="TODO" order="6" visible="true" weight="0.18566775" />
       <window_info anchor="bottom" id="Docker" order="7" show_stripe_button="false" />
       <window_info anchor="bottom" id="Version Control" order="8" weight="0.32899022" />
       <window_info anchor="bottom" id="Terminal" order="9" weight="0.25118482" />
@@ -249,8 +252,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/template/js/script.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="230">
-          <caret line="147" selection-start-line="147" selection-end-line="147" />
+        <state relative-caret-position="-281">
+          <caret line="543" column="16" selection-start-line="543" selection-start-column="16" selection-end-line="543" selection-end-column="16" />
         </state>
       </provider>
     </entry>

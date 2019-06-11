@@ -539,7 +539,7 @@ var controller = (function (modelCtrl, viewCtrl) {
         document.addEventListener('keypress', (event) => {
             if (event.keyCode === 13 || event.which === 13) {
 
-                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value;
+                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value
 
                 // 1. Check if input is emptu
                 if (inputText === "") {
