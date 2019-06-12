@@ -14,7 +14,7 @@
 
 const os = require(`os`);
 const {PythonShell} = require("python-shell");
-
+const remote = require('electron').remote;
 
 var model = (function (viewCtrl) {
 
@@ -208,7 +208,7 @@ var view = (function () {
 
             // 1. Pick inputCmd Div
             let inputCmd = `<div id="inputCMD-${eid}">
-                                <span id="span-${eid}" class="glitch a" data-text="GLITCH">${osUsername}@${osHostname}</span>:<span class="b">~</span><span class="c">$</span>
+                                <span id="span-${eid}" class="glitch a" data-text="GLITCH">${osUsername}@${osHostname}</span>:<span class="b">~</span><span class="  c">$</span>
                                 <input id="userInput-${eid}" type="text">
                                 
                                 <button id="sendbtn-${eid}" class="noRecbtn" style="display: none" disabled><i class="a fa fa-microphone-slash" style="font-size:17px;"></i></button>
@@ -618,6 +618,11 @@ var controller = (function (modelCtrl, viewCtrl) {
     let setupEventListeners = function () {
 
         let DOMstrings = viewCtrl.getDOMStrings();
+
+        // TODO 'Exit Button'
+        /* let currentWindow = remote.getCurrentWindow()
+        currentWindow.close(); */
+        //document.querySelector(`${DOMstrings.exitLink}`).addEventListener('click', );
 
         document.querySelector(`${DOMstrings.userInput}${inputCmdList[inputCmdList.length - 1]}`).addEventListener('input', () => {
             if (document.querySelector(`${DOMstrings.userInput}${inputCmdList[inputCmdList.length - 1]}`).value === "") {
