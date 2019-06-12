@@ -21,6 +21,11 @@
     <!-- import plugin script -->
     <script src='https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.min.js'></script>
 
+    <link rel="shortcut icon" href="../favicon.ico">
+    <link rel="stylesheet" type="text/css" href="css/default.css" />
+    <link rel="stylesheet" type="text/css" href="css/component.css" />
+    <script src="js/modernizr.custom.js"></script>
+
     <script>
         window.console = window.console || function(t) {};
     </script>
@@ -29,7 +34,7 @@
             window.parent.postMessage("resize", "*");
         }
     </script>
-</head>
+    </head>
     <body>
         <!-- <script type="text/javascript" src="index.js">    </script> -->
 
@@ -39,16 +44,11 @@
 
                 <nav class="main-menu">
                     <ul>
-                        <!--<li>
-                          <header class="fa avatar">
-                            <img src="img/face.png">
-                          </header>
-                        </li>-->
                         <li class="has-subnav avatar">
                             <img src="img/face3.png" class="fa fa-2x" style="width: 45px; height: 45px; border-radius: 100%; border: 4px solid #ffea92; box-shadow: 0 0 0 4px rgba(255, 255, 255, 0.2);">
                             <span style="margin-left: 40px; color:#e2e2e2; font-weight: bold;">
                                     Smart Terminal
-                                            </span>
+                                </span>
 
                         </li>
 
@@ -119,6 +119,15 @@
                 </div>
 
                 <div class="col-sm-8">
+                    <!--<div class="h-100 row align-items-center">
+                        <div class="col">
+                                    <button class="graphbtn"><i class="a">One Program Usage</i></button>
+                                    <button class="graphbtn"><i class="a">Multiple Programs Usage</i></button>
+                        </div>
+                    </div>-->
+
+
+
                     <div class="container">
                         <!-- line chart canvas element -->
                         <canvas id="buyers" width="600" height="400"></canvas>
@@ -126,13 +135,16 @@
                         <canvas id="countries" width="600" height="400"></canvas>
                         <!-- bar chart canvas element -->
                         <canvas id="income" width="600" height="400"></canvas>
-
                     </div>
                 </div>
             </div>
         </div>
 
-<!--         <script>
+
+        <script type="text/javascript" src="js/script.js"></script>
+
+
+        <script>
             // line chart data
             var buyerData = {
                 labels : ["January","February","March","April","May","June"],
@@ -145,11 +157,12 @@
                         data : [203,156,99,251,305,247]
                     }
                 ]
-            }
+            };
             // get line chart canvas
             var buyers = document.getElementById('buyers').getContext('2d');
             // draw line chart
             new Chart(buyers).Line(buyerData);
+
             // pie chart data
             var pieData = [
                 {
@@ -178,6 +191,7 @@
             var countries= document.getElementById("countries").getContext("2d");
             // draw pie chart
             new Chart(countries).Pie(pieData, pieOptions);
+
             // bar chart data
             var barData = {
                 labels : ["January","February","March","April","May","June"],
@@ -198,8 +212,9 @@
             var income = document.getElementById("income").getContext("2d");
             // draw bar chart
             new Chart(income).Bar(barData);
-        </script> -->
+        </script>
 
+<!--
         <script>
 
             function getRandomColor() {
@@ -305,7 +320,7 @@
             
 
         </script>
-
+-->
 
         <!-- <script type="text/javascript", src="index2.js"></script> -->
         <script type="text/javascript" src="caret-js/caret.js"></script>

@@ -84,7 +84,7 @@ var model = (function (viewCtrl) {
                 replyJSONmsg = JSON.parse(xhttp.responseText);
             }
             catch (e) {
-                replyJSONmsg["statues"] = '4';
+                replyJSONmsg["statues"].push('4');
             }
 
             return replyJSONmsg;
@@ -144,7 +144,8 @@ var model = (function (viewCtrl) {
 // TODO 'Sound Reply Msg'
 // TODO 'When server down, the last msg executed'
 // TODO '~$'
-// TODO 'Check current after each execution'
+// TODO 'Check current after each execution
+// TODO 'Graph.js'
 
 var view = (function () {
 
@@ -156,6 +157,21 @@ var view = (function () {
         userInput:'#userInput-',
         cmdSpan:'#span-',
         serverRes: '#CMDoutput-',
+
+        // Graphs
+        lineGrph: '#buyers',
+        pieGrph: '#countries',
+        barGrph: '#income',
+
+        //NavBar Links
+        terminalLink: '#terminal',
+        graphLink: '#graphsAndStat',
+        documentationLink: '#docLink',
+        srcCodeLink: '#srcCodeLink',
+        donateLink: '#donateLink',
+        aboutLink: '#aboutLink',
+        settingLink: '#settingLink',
+        exitLink: '#exitLink'
     };
 
     let osUsername = os.userInfo().username;
@@ -192,16 +208,16 @@ var view = (function () {
 
             // 1. Pick inputCmd Div
             let inputCmd = `<div id="inputCMD-${eid}">
-                                <span id="span-${eid}" class="glitch a" data-text="GLITCH">${osUsername}@${osHostname}</span>:<span id="b">~</span><span id="c">$</span>
+                                <span id="span-${eid}" class="glitch a" data-text="GLITCH">${osUsername}@${osHostname}</span>:<span class="b">~</span><span class="c">$</span>
                                 <input id="userInput-${eid}" type="text">
                                 
-                                <button  id="sendbtn-${eid}" class="recbtn" style="display: none"><i class="a glyphicon glyphicon-send" style="font-size:13px; "></i></button>
-                                <button id="recbtn-${eid}" class="recbtn"><i id="a" class="fa fa-microphone" style="font-size:17px"></i></button>
+                                <button id="sendbtn-${eid}" class="noRecbtn" style="display: none" disabled><i class="a fa fa-microphone-slash" style="font-size:17px;"></i></button>
+                                <button id="recbtn-${eid}" class="recbtn"><i class="a fa fa-microphone" style="font-size:17px"></i></button>
                                 
                             </div>`;
 
             // 2. Place it before end of it's parent
-            document.querySelector(DOMstrings.console).insertAdjacentHTML('beforeend', inputCmd);
+            document.querySelector(`${DOMstrings.console}`).insertAdjacentHTML('beforeend', inputCmd);
             document.querySelector(`${DOMstrings.userInput}${eid}`).setAttribute('autofocus', '');
 
             // 3. Add divID number
@@ -277,6 +293,83 @@ var view = (function () {
             }
 
             serverResList.push(eid);
+        },
+
+        displayLineChart: function () {
+            // line chart data
+            let lineData = {
+                labels : ["January","February","March","April","May","June"],
+                datasets : [
+                    {
+                        fillColor : "rgba(172,194,132,0.4)",
+                        strokeColor : "#ACC26D",
+                        pointColor : "#fff",
+                        pointStrokeColor : "#9DB86D",
+                        data : [203,156,99,251,305,247]
+                    }
+                ]
+            };
+
+            // get line chart canvas
+            let buyers = document.querySelector(`${DOMstrings.lineGrph}`).getContext('2d');
+            // draw line chart
+            new Chart(buyers).Line(lineData);
+        },
+
+        displayPieChart: function () {
+            // pie chart data
+            let pieData = [
+                {
+                    value: 20,
+                    color:"#878BB6"
+                },
+                {
+                    value : 40,
+                    color : "#4ACAB4"
+                },
+                {
+                    value : 10,
+                    color : "#FF8153"
+                },
+                {
+                    value : 30,
+                    color : "#FFEA88"
+                }
+            ];
+            // pie chart options
+            let pieOptions = {
+                segmentShowStroke : false,
+                animateScale : true
+            };
+
+            // get pie chart canvas
+            let countries = document.querySelector(`${DOMstrings.pieGrph}`).getContext("2d");
+            // draw pie chart
+            new Chart(countries).Pie(pieData, pieOptions);
+        },
+
+        displayBarChart: function () {
+            // bar chart data
+            let barData = {
+                labels : ["January","February","March","April","May","June"],
+                datasets : [
+                    {
+                        fillColor : "#48A497",
+                        strokeColor : "#48A4D1",
+                        data : [456,479,324,569,702,600]
+                    },
+                    {
+                        fillColor : "rgba(73,188,170,0.4)",
+                        strokeColor : "rgba(72,174,209,0.4)",
+                        data : [364,504,605,400,345,320]
+                    }
+                ]
+            };
+
+            // get bar chart canvas
+            let income = document.querySelector(`${DOMstrings.barGrph}`).getContext("2d");
+            // draw bar chart
+            new Chart(income).Bar(barData);
         },
 
         /**
@@ -526,20 +619,22 @@ var controller = (function (modelCtrl, viewCtrl) {
 
         let DOMstrings = viewCtrl.getDOMStrings();
 
-        /*document.querySelector(`${DOMstrings.userInput}${inputCmdList[inputCmdList.length - 1]}`).addEventListener('input', () => {
+        document.querySelector(`${DOMstrings.userInput}${inputCmdList[inputCmdList.length - 1]}`).addEventListener('input', () => {
             if (document.querySelector(`${DOMstrings.userInput}${inputCmdList[inputCmdList.length - 1]}`).value === "") {
                 viewCtrl.showMicBtn(inputCmdList[inputCmdList.length - 1]);
             } else {
                 viewCtrl.showSendBtn(inputCmdList[inputCmdList.length - 1]);
             }
-        });*/
+        });
+
+       // document.querySelector(`${DOMstrings.graphLink}`).addEventListener('click', console.log("Welcome in graphs"));
 
         document.querySelector(`${DOMstrings.recBtn}${inputCmdList[inputCmdList.length - 1]}`).addEventListener('click', appendSoundQuery);
 
         document.addEventListener('keypress', (event) => {
             if (event.keyCode === 13 || event.which === 13) {
 
-                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value
+                let inputText = document.querySelector(`${DOMstrings.userInput}${inputCmdList.length - 1}`).value;
 
                 // 1. Check if input is emptu
                 if (inputText === "") {
