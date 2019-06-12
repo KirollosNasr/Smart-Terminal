@@ -1,5 +1,5 @@
 from sqlite3 import connect;
-from monitor.files import *;
+from files import *;
 from os.path import join;
 
 class db :
@@ -41,7 +41,7 @@ class db :
 	def _checkPath() : rootFolder();subContent();logFile();
 
 	@staticmethod
-	def append(x , y) : return { k: x.get(k, 0) + y.get(k, 0) for k in set(x) | set(y) }
+	def append(x , y , v) : return { k: x.get(k, v) + y.get(k, v) for k in set(x) | set(y) }
 
 
 

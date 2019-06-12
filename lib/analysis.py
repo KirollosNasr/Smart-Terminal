@@ -1,7 +1,7 @@
-from monitor.database import db;
+from database import db;
 from datetime import datetime, timedelta;
 from os.path import isfile;
-from monitor.files import *;
+from files import *;
 from json import dumps;
 
 class Collect :
@@ -58,5 +58,9 @@ class Collect :
 		d1 = datetime.strptime(d1, "%Y-%m-%d")
 		d2 = datetime.strptime(d2, "%Y-%m-%d")
 		return (d2 > d1)
+
+
+
+# print(Collect(5).getMonitoringData())
 
 

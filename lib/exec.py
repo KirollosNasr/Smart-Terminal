@@ -2,7 +2,7 @@ from sklearn.externals.joblib import load;
 from dill import load as cload;
 from subprocess import Popen , PIPE;
 from correct import normalizeQuery;
-from monitor.analysis import Collect;
+from analysis import Collect;
 from os import chdir , getcwd;
 from os.path import expanduser;
 
