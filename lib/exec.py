@@ -6,7 +6,10 @@ from analysis import Collect;
 from os import chdir , getcwd;
 from os.path import expanduser;
 
-classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'date', 'hostname -i', 'mkdir','mkdir -m 777', 'pkill', 'poweroff', 'reboot', 'systemctl suspend','uname -a', 'uptime -p', 'whoami', 'eject', 'rm', 'rm -r','uptime -p']
+# classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'date', 'hostname -i', 'mkdir','mkdir -m 777', 'pkill', 'poweroff', 'reboot', 'systemctl suspend','uname -a', 'uptime -p', 'whoami', 'eject', 'rm', 'rm -r','uptime -p']
+
+classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'cd', 'cd..', 'cd ~', 'date', 'hostname -i', 'mkdir', 'mkdir -m 777', 'pkill', 'poweroff', 'pwd', 'reboot', 'systemctl suspend',' uname -a', 'whoami','eject', 'rm', 'rm -r']
+
 
 model      = load("../data/models/model.bin");
 feature    = load("../data/models/feature.bin");
@@ -74,4 +77,4 @@ class Run :
 
 
 if __name__ == "__main__" : 
-	print(Run().exec('open CD-ROM'))
+	print(Run().exec('please i would ask you change the existing working folder to previous folder'))

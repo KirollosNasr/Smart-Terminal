@@ -1,0 +1,1 @@
+classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'cd', 'cd..', 'cd ~', 'date', 'hostname -i', 'mkdir', 'mkdir -m 777', 'pkill', 'poweroff', 'pwd', 'reboot', 'systemctl suspend',' uname -a', 'whoami','eject', 'rm', 'rm -r']

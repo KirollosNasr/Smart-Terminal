@@ -22,11 +22,12 @@ def normalizeQuery(query , minScore , model) :
 	fixed = [];
 	for word in words :
 		r = model.get(word);
-		if r != None : (score , most) = r[0];
-		if score >= minScore : fixed.append(most.lower());
+		if r != None : 
+			(score , most) = r[0];
+			if score >= minScore : fixed.append(most.lower());
 
 	# print(fixed , quoted)
 	return (fixed , quoted);
 
 
-# print(normalizeQuery('make a new folder "new folder"'  , 0.65 , load(open("../data/models/correction.bin","rb"))));
+# print(normalizeQuery(' dolder '  , 0.65 , load(open("../data/models/correction.bin","rb"))));

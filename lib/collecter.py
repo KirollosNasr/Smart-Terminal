@@ -65,7 +65,7 @@ while True :
 	if counter % 20 == 0 : 
 		try :
 			old = d.get();
-			appended = d.append(old,builder);
+			appended = d.append(old,builder,0);
 			d.insert(appended);
 		except : pass;
 		finally :
