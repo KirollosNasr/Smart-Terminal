@@ -12,7 +12,6 @@ model      = load("../data/models/model.bin");
 feature    = load("../data/models/feature.bin");
 correction = cload(open("../data/models/correction.bin" , "rb"));
 
-
 class Run :
 	@staticmethod
 	def _run(command , password=None) :
@@ -75,4 +74,4 @@ class Run :
 
 
 if __name__ == "__main__" : 
-	print(Run().exec('make a new folder "folder"'))
+	print(Run().exec('open CD-ROM'))

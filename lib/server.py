@@ -2,8 +2,9 @@ from flask import Flask , jsonify , request;
 from os.path import join , sep , isfile;
 from speech.speech import Speech;
 from exec import Run;
-from files import rootFolder , subContent , ROOTPATH , FOLDERNAME , Time , fullDate;
+from files import rootFolder , subContent , ROOTPATH , FOLDERNAME , Time , fullDate , getUserName;
 from shlex import split;
+from os import getcwd;
 
 def PATH() : return join(ROOTPATH , FOLDERNAME , Time.getYear() , Time.getMonth() , "log.csv");
 rootFolder();
@@ -13,6 +14,7 @@ fl = open(PATH() ,"a");
 app = Flask(__name__);
 runner = Run();
 speech = Speech();
+
 
 def logData(query , reply , cmd , statues) :
 	global fl;
@@ -33,6 +35,11 @@ def logData(query , reply , cmd , statues) :
 	fl.flush();
 
 
+def cwd() :
+	c = getcwd();
+	if c == join("/" , "home" , getUserName()) : return "~";
+	return c;
+
 
 @app.route('/text' , methods=["POST"])
 def text() :
@@ -44,7 +51,8 @@ def text() :
 	return jsonify({
 			"query"    : query,
 			"response" : reply,
-			"statues"  : statues
+			"statues"  : statues,
+			"cwd"      : cwd()
 		});
 
 
@@ -57,14 +65,16 @@ def voice() :
 		return jsonify({
 			"query"    : "",
 			"response" : "I can not hear you clearly, please speak again!",
-			"statues"  : "2"});
+			"statues"  : "2",
+			"cwd"      : cwd()});
 	(reply , command , statues , talkable) = runner.exec(query);
 	logData(query , reply, command , statues);
 	if talkable == "0" : speech.speak(reply);
 	return jsonify({
 			"query"    : query, 
 			"response" : reply,
-			"statues"  : statues
+			"statues"  : statues,
+			"cwd"      : cwd() 
 	});
 
 
@@ -79,9 +89,16 @@ def shutdown():
 	return "the server is shutting down.."
 
 
-@app.route('/usage', methods=["GET"])
+@app.route('/usage', methods=["POST"])
 def getUsage() :
-	return jsonify(runner.usage(7));
+	days = request.data.decode('utf-8')
+	days = days.strip();
+	try :
+		days = int(days)
+	except : return jsonify(runner.usage(7));
+	else :
+		return jsonify(runner.usage(days));
+
 
 
 @app.route("/test" , methods=["GET"])
