@@ -9,6 +9,7 @@
     <link rel='stylesheet' type='text/css' href="css/font-face/font-face.css">
     <link rel="stylesheet" type="text/css" href="css/index.css">
     <link rel="stylesheet" type="text/css" href="css/navBar.css">
+    <link rel="stylesheet" type="text/css" href="css/select.css">
 
     <script type="text/javascript" src="js/jQuery/jquery.min.js"></script>
     <script type="text/javascript" src="js/bootstrap/bootstrap.min.js"></script>
@@ -30,151 +31,232 @@
 
         <div id="navbar"></div>
 
-        <div class="col-sm-2">
+        <div class="col-sm-1">
         </div>
 
         <div class="col-sm-8">
             <div class="container">
                 <!-- line chart canvas element -->
-                <canvas id="buyers" width="600" height="400" style="margin-top: 10%"></canvas>
+                <canvas id="programLine" width="580" height="400"></canvas>
+
+                <div id="selectDiv" class="row">
+                    <div class="col-sm-4">
+                        <div class="styled-select green rounded">
+                            <select id="programsSelect">
+                                <option selected disabled>Select Program</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-4">
+                        <div class="styled-select green rounded">
+                            <select id="daysSelect">
+                                <option selected disabled>Select Period</option>
+                                <option value="4 Days">4 Days</option>
+                                <option value="7 Days">7 Days</option>
+                                <option value="2 Weeks">2 Weeks</option>
+                                <option value="3 Weeks">3 Weeks</option>
+                                <option value="1 Month">1 Month</option>
+                                <option value="3 Months">3 Months</option>
+                                <option value="6 Months">6 Months</option>
+                                <option value="9 Months">9 Months</option>
+                                <option value="1 Year">1 Year</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="col-sm-1">
+                        <button id="refresh" class="refreshbtn"><i class="a fa fa-play-circle-o" style="font-size:40px"></i></button>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-sm-4">
+
+                    </div>
+                    <div class="col-sm-4">
+                    </div>
+                </div>
+                <!--TODO 'change background color of line chart'-->
+                <!--<div class="row">
+                    <div class="col-sm-6">
+
+                    </div>
+                    <div class="col-sm-3">
+                        <div class="styled-select green rounded">
+                            <select>
+                                <option>Here is the first option</option>
+                                <option>The second option</option>
+                                <option>The third option</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-sm-1">
+                        <button id="refresh" class="refreshbtn"><i class="a fa fa-refresh" style="font-size:35px"></i></button>
+                    </div>-->
             </div>
         </div>
-
     </div>
-
 </div>
 
 
-<script type="text/javascript" src="js/script.js"></script>
-
-
 <script>
-                // line chart data
-                var buyerData = {
-                    labels : ["January","February","March","April","May","June"],
-                    datasets : [
-                        {
-                            fillColor : "rgba(172,194,132,0.4)",
-                            strokeColor : "#ACC26D",
-                            pointColor : "#fff",
-                            pointStrokeColor : "#9DB86D",
-                            data : [203,156,99,251,305,247]
-                        }
-                    ]
-                };
-                // get line chart canvas
-                var buyers = document.getElementById('buyers').getContext('2d');
-                // draw line chart
-                new Chart(buyers).Line(buyerData);
-</script>
 
-<!--
-        <script>
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+            color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+    }
 
-            function getRandomColor() {
-                var letters = '0123456789ABCDEF';
-                var color = '#';
-                for (var i = 0; i < 6; i++) {
-                color += letters[Math.floor(Math.random() * 16)];
-                }
-                return color;
+    function getTrackingData() {
+        var xhttp = new XMLHttpRequest();
+        let values     = [];
+        let dataKeys   = [];
+        try {
+            xhttp.open("POST", "http://localhost:9000/usage", false);
+            xhttp.send(365);
+            let data = JSON.parse(xhttp.responseText)
+            let keys = Object.keys(data);
+
+            for(var i = 0;i < keys.length;i++) {
+                dataKeys.push(keys[i])
             }
 
-            function getTrackingData() {
-
-                var xhttp = new XMLHttpRequest();
-                let values     = [];
-                let dataKeys   = [];
-                try {
-                    xhttp.open("GET", "http://localhost:9000/usage", false);
-                    xhttp.send();
-                    let data = JSON.parse(xhttp.responseText)
-                    let keys = Object.keys(data);
-
-                    for(var i = 0;i < keys.length;i++) {
-                        dataKeys.push(keys[i])
-                    }
-
-                    for(var j = 0;j < dataKeys.length;j++) {
-                        values.push(data[dataKeys[j]])
-                    }
-
-                    return [dataKeys , values]
-                }
-                catch(e) {
-                    return [[],[]]
-                }
-
+            for(var j = 0;j < dataKeys.length;j++) {
+                values.push(data[dataKeys[j]])
             }
+            return data;
+        }
+        catch(e) {
+            return [[],[]]
+        }
+    }
+    getTrackingData();
 
-            function generatePieData(k , v) {
-                d = [];
-                for(var i = 0;i < k.length;i++) {
-                    d.push({
-                        value:v[i],
-                        label:k[i],
-                        color:getRandomColor()
-                    })
-                }
-                return d;
-            }
+    function generatePieData(k , v) {
+        d = [];
+        for(var i = 0;i < k.length;i++) {
+            d.push({
+                value:v[i],
+                label:k[i],
+                color:getRandomColor()
+            })
+        }
+        return d;
+    }
 
-            var data = getTrackingData()
-            // line chart data
-            var buyerData = {
-                labels : data[0],
-                datasets : [
+    let data = getTrackingData();
+    let listed = data["listed"];
+    let listedKeys = Object.keys(listed); // Program names
+    console.log(listedKeys);
+
+    for (let i = 0; i < listedKeys.length; i++) {
+        let programsSelect = document.getElementById("programsSelect");
+        let programsOptions = document.createElement("option");
+        programsOptions.setAttribute('value', `${listedKeys[i]}`);
+
+        programsOptions.text = listedKeys[i];
+        programsSelect.add(programsOptions);
+    }
+
+    document.getElementById('refresh').addEventListener('click', () => {
+
+        let values, dates, daysCount;
+
+        let programName = document.getElementById("programsSelect").value;
+        let days = document.getElementById("daysSelect").value;
+
+        if (days === '4 Days') {
+            daysCount = 4;
+        } else if (days === '7 Days') {
+            daysCount = 7;
+        } else if (days === '2 Weeks') {
+            daysCount = 14;
+        } else if (days === '3 Weeks') {
+            daysCount = 21;
+        } else if (days === '1 Month') {
+            daysCount = 30;
+        } else if (days === '3 Months') {
+            daysCount = 90;
+        } else if (days === '6 Months') {
+            daysCount = 180;
+        } else if (days === '9 Months') {
+            daysCount = 270;
+        } else if (days === '1 Year') {
+            daysCount = 365;
+        }
+
+        let programValues = Object.values(listed[`${programName}`]);
+        console.log(programName, days);
+        console.log(Math.trunc(programValues[0][0]/3600));
+
+        values = [];
+        dates = [];
+
+        for (let i = 0; i < programValues.length && i !== daysCount; i++){
+            let value, date;
+
+            value = Math.trunc(programValues[i][0]/60);
+            values.push(value);
+
+            date = programValues[i][1];
+            dates.push(date);
+        };
+
+
+        console.log(values, dates);
+
+        // line chart data
+        var buyerData = {
+            labels : dates,
+            datasets : [
                 {
                     fillColor : "rgba(172,194,132,0.4)",
                     strokeColor : "#ACC26D",
                     pointColor : "#fff",
                     pointStrokeColor : "#9DB86D",
-                    data : data[1]
+                    data : values
                 }
             ]
-            }
-            // get line chart canvas
-            var buyers = document.getElementById('buyers').getContext('2d');
-            // draw line chart
-            new Chart(buyers).Line(buyerData);
+        }
+        // get line chart canvas
+        var buyers = document.getElementById('programLine').getContext('2d');
+        // draw line chart
+        new Chart(buyers).Line(buyerData);
 
+        /*var pieData = generatePieData(Object.keys(data["total"]),Object.values(data["total"]));
+        // pie chart options
+        var pieOptions = {
+            segmentShowStroke : false,
+            animateScale : true
+        }
+        // get pie chart canvas
+        var countries= document.getElementById("monitorPie").getContext("2d");
+        // draw pie chart
+        new Chart(countries).Pie(pieData, pieOptions);
+        // bar chart data
 
+        var barData = {
+            labels : Object.keys(data["total"]),
+            datasets : [
+                {
+                    fillColor : "#48A497",
+                    strokeColor : "#48A4D1",
+                    data : Object.values(data["total"])
+                }
+            ]
+        }
+        // get bar chart canvas
+        var income = document.getElementById("monitorBar").getContext("2d");
+        // draw bar chart
+        new Chart(income).Bar(barData);*/
+    });
 
-
-            // pie chart data
-            var pieData = generatePieData(data[0],data[1]);
-            // pie chart options
-            var pieOptions = {
-                    segmentShowStroke : false,
-                    animateScale : true
-            }
-            // get pie chart canvas
-            var countries= document.getElementById("countries").getContext("2d");
-            // draw pie chart
-            new Chart(countries).Pie(pieData, pieOptions);
-            // bar chart data
-
-
-
-
-            var barData = {
-                labels : data[0],
-                datasets : [
-                    {
-                        fillColor : "#48A497",
-                        strokeColor : "#48A4D1",
-                        data : data[1]
-                    }
-                ]
-            }
-            // get bar chart canvas
-            var income = document.getElementById("income").getContext("2d");
-            // draw bar chart
-            new Chart(income).Bar(barData);
-
-
-        </script>
--->
+    // pie chart data
+</script>
 </body>
 </html>
 

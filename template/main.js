@@ -12,7 +12,7 @@ const onAppReady = function () {
     height: 575,
     transparent: true,
     frame: true,
-    icon: path.join(__dirname, 'img/face5.png')
+    icon: path.join(__dirname, 'img/face3.png')
   });
 
   parent.setMenu(null)

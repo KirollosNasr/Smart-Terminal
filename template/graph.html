@@ -22,8 +22,8 @@
             $("#navbar").load("navbar.html");
         });
     </script>
-
     </head>
+
     <body>
         <div class="container-fluid">
             <div class="row">
@@ -34,98 +34,25 @@
 
                 <div class="col-sm-8">
                     <div class="container">
-                        <!-- line chart canvas element -->
-<!--
-                        <canvas id="buyers" width="600" height="400"></canvas>
--->
                         <!--pie chart canvas element -->
-                        <canvas id="countries" width="180" height="180"></canvas>
+                        <canvas id="monitorPie" width="180" height="180"></canvas>
+
+                        <div class="row">
+                            <div class="col-sm-8"></div>
+                            <div class="col-sm-4">
+                                <button id="refresh" class="refreshbtn"><i class="a fa fa-refresh" style="font-size:35px"></i></button>
+                            </div>
+                        </div>
+
                         <!-- bar chart canvas element -->
-                        <canvas id="income" width="580" height="340"></canvas>
+                        <canvas id="monitorBar" width="580" height="340"></canvas>
                     </div>
                 </div>
-
             </div>
-
         </div>
 
 
-        <script type="text/javascript" src="js/script.js"></script>
-
-
         <script>
-/*            // line chart data
-            var buyerData = {
-                labels : ["January","February","March","April","May","June"],
-                datasets : [
-                    {
-                        fillColor : "rgba(172,194,132,0.4)",
-                        strokeColor : "#ACC26D",
-                        pointColor : "#fff",
-                        pointStrokeColor : "#9DB86D",
-                        data : [203,156,99,251,305,247]
-                    }
-                ]
-            };
-            // get line chart canvas
-            var buyers = document.getElementById('buyers').getContext('2d');
-            // draw line chart
-            new Chart(buyers).Line(buyerData);*/
-
-            // pie chart data
-            var pieData = [
-                {
-                    value: 20,
-                    color:"#878BB6"
-                },
-                {
-                    value : 40,
-                    color : "#4ACAB4"
-                },
-                {
-                    value : 10,
-                    color : "#FF8153"
-                },
-                {
-                    value : 30,
-                    color : "#FFEA88"
-                }
-            ];
-            // pie chart options
-            var pieOptions = {
-                segmentShowStroke : false,
-                animateScale : true
-            }
-            // get pie chart canvas
-            var countries= document.getElementById("countries").getContext("2d");
-            // draw pie chart
-            new Chart(countries).Pie(pieData, pieOptions);
-
-            // bar chart data
-            var barData = {
-                labels : ["January","February","March","April","May","June"],
-                datasets : [
-                    {
-                        fillColor : "#48A497",
-                        strokeColor : "#48A4D1",
-                        data : [456,479,324,569,702,600]
-                    },
-                    {
-                        fillColor : "rgba(73,188,170,0.4)",
-                        strokeColor : "rgba(72,174,209,0.4)",
-                        data : [364,504,605,400,345,320]
-                    }
-                ]
-            }
-            // get bar chart canvas
-            var income = document.getElementById("income").getContext("2d");
-            // draw bar chart
-            new Chart(income).Bar(barData);
-        </script>
-
-<!--
-        <script>
-
             function getRandomColor() {
                 var letters = '0123456789ABCDEF';
                 var color = '#';
@@ -141,8 +68,8 @@
                 let values     = [];
                 let dataKeys   = [];
                 try {
-                    xhttp.open("GET", "http://localhost:9000/usage", false);
-                    xhttp.send();
+                    xhttp.open("POST", "http://localhost:9000/usage", false);
+                    xhttp.send(20);
                     let data = JSON.parse(xhttp.responseText)
                     let keys = Object.keys(data);
 
@@ -154,7 +81,19 @@
                         values.push(data[dataKeys[j]])
                     }
 
-                    return [dataKeys , values]
+                    let datake = Object.values(values);
+                    let datake2 = Object.values(datake);
+
+                    console.log(`dataKeys: ${dataKeys}`);
+                    console.log(`data values: ${datake}`);
+                    console.log(`dataKeys: ${datake2}`);
+                    //console.log(`dataKeys: ${dataKeys}`);
+                    //console.log(`dataKeys: ${dataKeys}`);
+                    //console.log(`dataKeys: ${dataKeys}`);
+
+                    console.log(`values: ${values}`);
+
+                    return data;
                 }
                 catch(e) {
                     return [[],[]]
@@ -174,9 +113,40 @@
                 return d;
             }
 
-            var data = getTrackingData()
+
+            document.getElementById('refresh').addEventListener('click', () => {
+                var data = getTrackingData()
+
+                var pieData = generatePieData(Object.keys(data["total"]),Object.values(data["total"]));
+                // pie chart options
+                var pieOptions = {
+                    segmentShowStroke : false,
+                    animateScale : true
+                }
+                // get pie chart canvas
+                var countries= document.getElementById("monitorPie").getContext("2d");
+                // draw pie chart
+                new Chart(countries).Pie(pieData, pieOptions);
+                // bar chart data
+
+                var barData = {
+                    labels : Object.keys(data["total"]),
+                    datasets : [
+                        {
+                            fillColor : "#48A497",
+                            strokeColor : "#48A4D1",
+                            data : Object.values(data["total"])
+                        }
+                    ]
+                }
+                // get bar chart canvas
+                var income = document.getElementById("monitorBar").getContext("2d");
+                // draw bar chart
+                new Chart(income).Bar(barData);
+            });
+
             // line chart data
-            var buyerData = {
+           /* var buyerData = {
                 labels : data[0],
                 datasets : [
                 {
@@ -189,47 +159,12 @@
             ]
             }
             // get line chart canvas
-            var buyers = document.getElementById('buyers').getContext('2d');
+            var buyers = document.getElementById('monitorPie').getContext('2d');
             // draw line chart
-            new Chart(buyers).Line(buyerData);
-
-
-
+            new Chart(buyers).Line(buyerData);*/
 
             // pie chart data
-            var pieData = generatePieData(data[0],data[1]);
-            // pie chart options
-            var pieOptions = {
-                    segmentShowStroke : false,
-                    animateScale : true
-            }
-            // get pie chart canvas
-            var countries= document.getElementById("countries").getContext("2d");
-            // draw pie chart
-            new Chart(countries).Pie(pieData, pieOptions);
-            // bar chart data
-
-
-
-
-            var barData = {
-                labels : data[0],
-                datasets : [
-                    {
-                        fillColor : "#48A497",
-                        strokeColor : "#48A4D1",
-                        data : data[1]
-                    }
-                ]
-            }
-            // get bar chart canvas
-            var income = document.getElementById("income").getContext("2d");
-            // draw bar chart
-            new Chart(income).Bar(barData);
-
-
         </script>
--->
     </body>
 </html>
 

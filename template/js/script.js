@@ -47,7 +47,7 @@ var model = (function (viewCtrl) {
          */
         createServerConnection: function () {
 
-            PythonShell.run("../lib/server.py", null);
+            PythonShell.run("../lib/server.py", (e) => {});
 
             return console.log(`Server Connected Successfully`)
         },
@@ -135,7 +135,55 @@ var model = (function (viewCtrl) {
             catch(err) {
                 console.log("error in connection");
             }
-        }
+        },
+
+        /**
+         * Summary. (Displays initial Cmd input.)
+         *
+         * Description. (Used mainly at the first init() call.)
+         *
+         * @since      0.9
+         *
+         * @memberof view
+         *
+         * @fires   eventName
+         * @fires   className#eventName
+         * @listens event:eventName
+         * @listens className~event:eventName
+         *
+         * @param {type}   var           Description.
+         * @param {type}   [var]         Description of optional variable.
+         * @param {type}   [var=default] Description of optional variable with default variable.
+         * @param {Object} objectVar     Description.
+         * @param {type}   objectVar.key Description of a key in the objectVar parameter.
+         *
+         * @return {type} Description.
+         */
+        getMonitoringData: function (days) {
+            let xhttp = new XMLHttpRequest();
+            let values     = [];
+            let dataKeys   = [];
+
+            try {
+                xhttp.open("POST", "http://localhost:9000/usage", false);
+                xhttp.send(days);
+                let data = JSON.parse(xhttp.responseText)
+                let keys = Object.keys(data);
+
+                for(var i = 0;i < keys.length;i++) {
+                    dataKeys.push(keys[i])
+                }
+
+                for(var j = 0;j < dataKeys.length;j++) {
+                    values.push(data[dataKeys[j]])
+                }
+
+                return [dataKeys, values];
+            }
+            catch(e) {
+                return [[],[]]
+            }
+        },
     }
 })();
 
@@ -159,9 +207,10 @@ var view = (function () {
         serverRes: '#CMDoutput-',
 
         // Graphs
-        lineGrph: '#buyers',
-        pieGrph: '#countries',
-        barGrph: '#income',
+        lineGrph: '#programLine',
+        pieGrph: '#monitorPie',
+        barGrph: '#monitorBar',
+        refreshBtn: '#refresh',
 
         //NavBar Links
         terminalLink: '#terminal',
@@ -204,16 +253,15 @@ var view = (function () {
          *
          * @return {type} Description.
          */
-        displayCmd: function (eid) {
+        displayCmd: function (eid, cd) {
 
             // 1. Pick inputCmd Div
-            let inputCmd = `<div id="inputCMD-${eid}">
-                                <span id="span-${eid}" class="glitch a" data-text="GLITCH">${osUsername}@${osHostname}</span>:<span class="b">~</span><span class="  c">$</span>
+            let inputCmd = `<div id="inputCMD-${eid}" class="inputCMD">
+                                <span id="span-${eid}" class="glitch a" data-text="GLITCH">${osUsername}@${osHostname}</span>:<span class="c">~</span><span class="c">${cd}</span><span>$</span>
                                 <input id="userInput-${eid}" type="text">
                                 
                                 <button id="sendbtn-${eid}" class="noRecbtn" style="display: none" disabled><i class="a fa fa-microphone-slash" style="font-size:17px;"></i></button>
                                 <button id="recbtn-${eid}" class="recbtn"><i class="a fa fa-microphone" style="font-size:17px"></i></button>
-                                
                             </div>`;
 
             // 2. Place it before end of it's parent
@@ -610,10 +658,11 @@ var view = (function () {
 
 var controller = (function (modelCtrl, viewCtrl) {
 
+    let cwd = process.cwd();
+
     let inputCmdList, serverResList, replyJSONmsg;
 
     inputCmdList = viewCtrl.getInputCmdList();
-    serverResList = viewCtrl.getResList();
 
     let setupEventListeners = function () {
 
@@ -632,7 +681,9 @@ var controller = (function (modelCtrl, viewCtrl) {
             }
         });
 
-       // document.querySelector(`${DOMstrings.graphLink}`).addEventListener('click', console.log("Welcome in graphs"));
+        // document.querySelector(`${DOMstrings.graphLink}`).addEventListener('click', console.log("Welcome in graphs"));
+
+       // document.querySelector(`${DOMstrings.refreshBtn}`).addEventListener('click', collectAllProgramsData);
 
         document.querySelector(`${DOMstrings.recBtn}${inputCmdList[inputCmdList.length - 1]}`).addEventListener('click', appendSoundQuery);
 
@@ -648,7 +699,7 @@ var controller = (function (modelCtrl, viewCtrl) {
                     viewCtrl.blockOldEmptyInputCmd(inputCmdList[inputCmdList.length - 1]);
 
                     // 2. Display new one
-                    viewCtrl.displayCmd(inputCmdList.length);
+                    viewCtrl.displayCmd(inputCmdList.length, cwd);
                 } else if (inputText === "clear") {
 
                     console.log(`Arr=  ${inputCmdList}`);
@@ -657,17 +708,13 @@ var controller = (function (modelCtrl, viewCtrl) {
                     viewCtrl.blockAllInputCmd();
 
                     // 2. Display new one
-                    viewCtrl.displayCmd(inputCmdList.length);
+                    viewCtrl.displayCmd(inputCmdList.length, cwd);
 
                 } else {
                     appendTextQuery(inputText);
                 }
             }
         });
-    };
-
-    let checkInputText = function () {
-
     };
 
     let appendTextQuery = function (inputText) {
@@ -681,7 +728,7 @@ var controller = (function (modelCtrl, viewCtrl) {
         viewCtrl.blockOldInputCmd(inputCmdList[inputCmdList.length - 1]);
 
         // 4. Display new one
-        viewCtrl.displayCmd(inputCmdList.length);
+        viewCtrl.displayCmd(inputCmdList.length, replyJSONmsg["cwd"]);
     };
 
     let appendSoundQuery = function () {
@@ -696,7 +743,13 @@ var controller = (function (modelCtrl, viewCtrl) {
         viewCtrl.blockOldInputCmd(inputCmdList[inputCmdList.length - 1]);
 
         // 4. Display new one
-        viewCtrl.displayCmd(inputCmdList.length);
+        viewCtrl.displayCmd(inputCmdList.length, replyJSONmsg["cwd"]);
+    };
+
+    let collectAllProgramsData = function () {
+        // 1. Collect monitoring data
+        let data = modelCtrl.getMonitoringData(10);
+        console.log(`Selected data ${data}`)
     };
 
     return {
@@ -730,12 +783,11 @@ var controller = (function (modelCtrl, viewCtrl) {
           modelCtrl.createServerConnection();
 
           // 2. Initial display for Cmd input
-          (inputCmdList.length === 0) ? viewCtrl.displayCmd(0) : viewCtrl.displayCmd(inputCmdList.length);
+          (inputCmdList.length === 0) ? viewCtrl.displayCmd(0, cwd) : viewCtrl.displayCmd(inputCmdList.length, cwd);
 
-          // 3. Setup Event listenters
+          // 3. Setup Event listeners
           setupEventListeners();
-
-      }
+        }
     }
 })(model, view);
 
