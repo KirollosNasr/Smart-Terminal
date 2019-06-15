@@ -88,4 +88,4 @@ class Run :
 
 
 if __name__ == "__main__" : 
-	print(Run().exec('change the working folder to "/home"'))
+	print(Run().exec('change the working folder to home'))
