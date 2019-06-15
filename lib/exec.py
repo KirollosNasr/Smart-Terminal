@@ -8,7 +8,7 @@ from os.path import expanduser;
 
 # classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'date', 'hostname -i', 'mkdir','mkdir -m 777', 'pkill', 'poweroff', 'reboot', 'systemctl suspend','uname -a', 'uptime -p', 'whoami', 'eject', 'rm', 'rm -r','uptime -p']
 
-classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'cd', 'cd..', 'cd ~', 'date', 'hostname -i', 'mkdir', 'mkdir -m 777', 'pkill', 'poweroff', 'pwd', 'reboot', 'systemctl suspend',' uname -a', 'whoami','eject', 'rm', 'rm -r']
+classes=['amixer -D pulse sset Master 50%+', 'amixer -D pulse sset Master 50%-', 'cal', 'cal -y', 'cd', 'cd ..', 'cd ~', 'date', 'hostname -i', 'mkdir', 'mkdir -m 777', 'pkill', 'poweroff', 'pwd', 'reboot', 'systemctl suspend',' uname -a', 'whoami','eject', 'rm', 'rm -r']
 
 
 model      = load("../data/models/model.bin");
@@ -38,9 +38,10 @@ class Run :
 
 	def exec(self, query) :
 		command = self._predict(query);
+		print(command[0])
 
 		if command[0].strip() == "cd" :
-			if len(command[1]) != 1  : return ("Sorry, please give me a correct directory." , "cd {0}".format(" ".join(command[1])) , "1");
+			if len(command[1]) != 1  : return ("Sorry, please give me a correct directory." , "cd {0}".format(" ".join(command[1])) , "1" , "0");
 			else :
 				directory = command[1][0];
 				try :
@@ -52,6 +53,16 @@ class Run :
 				else :
 					return ("We change the working directory to {0}".format(getcwd()) , "cd {0}".format(directory) , "0" , "0")
 
+		if command[0].strip() == "cd ~" : 
+			try : chdir(expanduser("~"))
+			except : return ("Sorry, we can't change the directory to your home folder" , "cd {0}".format(expanduser("~")) , "1" , "0");
+			else : return ("We change the working directory to {0}".format(getcwd()) , "cd {0}".format(expanduser("~")) , "0" , "0")
+
+		if command[0].strip() == "cd .." :
+			try : chdir("..");
+			except : return ("Sorry, we can't change the directory to the previous folder" , "cd .." , "1" , "0");
+			else : return ("We change the working directory to {0}".format(getcwd()) , "cd {0}".format(getcwd()) , "0" , "0")
+
 
 		try :
 			commandLiteral = "{0} {1}".format(command[0] , " ".join(command[1]));
@@ -59,7 +70,7 @@ class Run :
 		except : 
 			return ("Sorry your command can not be executed correctly" , commandLiteral , "1" , "0");
 		else :
-			if command[0] in ['date', 'hostname -i','uname -a', 'uptime -p', 'whoami','uptime -p'] :
+			if command[0] in ['date', 'hostname -i','uname -a', 'uptime -p', 'whoami','uptime -p', 'pwd'] :
 				return (output.strip() , commandLiteral , "0" , "0");
 			elif command[0] in ['cal', 'cal -y'] : return (output.strip() , commandLiteral , "0" , "1");
 			elif command[0] == 'amixer -D pulse sset Master 50%+' : return ("Sound has raised 50%" , commandLiteral , "0" , "0")
@@ -77,4 +88,4 @@ class Run :
 
 
 if __name__ == "__main__" : 
-	print(Run().exec('please i would ask you change the existing working folder to previous folder'))
+	print(Run().exec('change the working folder to home'))
