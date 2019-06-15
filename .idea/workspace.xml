@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="1da2255f-44ed-4fbc-86f5-3435ef74f2bd" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/template/graph.html" beforeDir="false" afterPath="$PROJECT_DIR$/template/graph.html" afterDir="false" />
-    </list>
+    <list default="true" id="1da2255f-44ed-4fbc-86f5-3435ef74f2bd" name="Default Changelist" comment="" />
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
     <ignored path="$PROJECT_DIR$/tmp/" />
@@ -24,7 +21,7 @@
                 <entry file="file://$PROJECT_DIR$/template/graph.html">
                   <provider selected="true" editor-type-id="text-editor">
                     <state relative-caret-position="270">
-                      <caret line="127" selection-start-line="127" selection-end-line="127" />
+                      <caret line="127" lean-forward="true" selection-start-line="127" selection-end-line="127" />
                       <folding>
                         <element signature="n#style#0;n#i#0;n#button#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
                       </folding>
@@ -320,12 +317,12 @@
       <workItem from="1560436010918" duration="20773000" />
       <workItem from="1560502790334" duration="13399000" />
       <workItem from="1560547911057" duration="2667000" />
-      <workItem from="1560583438414" duration="1119000" />
+      <workItem from="1560583438414" duration="1407000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="139293000" />
+    <option name="totallyTimeSpent" value="139581000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -543,7 +540,7 @@
     <entry file="file://$PROJECT_DIR$/template/graph.html">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="270">
-          <caret line="127" selection-start-line="127" selection-end-line="127" />
+          <caret line="127" lean-forward="true" selection-start-line="127" selection-end-line="127" />
           <folding>
             <element signature="n#style#0;n#i#0;n#button#0;n#div#1;n#div#0;n#div#0;n#div#2;n#div#0;n#div#0;n#body#0;n#html#0;n#!!top" expanded="true" />
           </folding>
