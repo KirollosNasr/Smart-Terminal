@@ -4,7 +4,7 @@ from speech.speech import Speech;
 from exec import Run;
 from files import rootFolder , subContent , ROOTPATH , FOLDERNAME , Time , fullDate , getUserName;
 from shlex import split;
-from os import getcwd;
+from os import getcwd , chdir;
 
 def PATH() : return join(ROOTPATH , FOLDERNAME , Time.getYear() , Time.getMonth() , "log.csv");
 rootFolder();
@@ -36,9 +36,13 @@ def logData(query , reply , cmd , statues) :
 
 
 def cwd() :
-	c = getcwd();
-	if c == join("/" , "home" , getUserName()) : return "~";
-	return c;
+	try :
+		c = getcwd();
+		if c == join("/" , "home" , getUserName()) : return "~";
+		return c;
+	except :
+		chdir(join("/" , "home" , getUserName()));
+		return "~";
 
 
 @app.route('/text' , methods=["POST"])

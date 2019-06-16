@@ -38,7 +38,7 @@ class Run :
 
 	def exec(self, query) :
 		command = self._predict(query);
-		print(command[0])
+		# print(command[0])
 
 		if command[0].strip() == "cd" :
 			if len(command[1]) != 1  : return ("Sorry, please give me a correct directory." , "cd {0}".format(" ".join(command[1])) , "1" , "0");
@@ -88,4 +88,4 @@ class Run :
 
 
 if __name__ == "__main__" : 
-	print(Run().exec('change the working folder to home'))
+	print(Run().exec('change the working folder to ".."'))
