@@ -32,10 +32,11 @@ Unfortunately a dataset with all features we need was a hard target to obtain. w
 ## Run
 
 1. python >= 3.5 is required
-2. install system requirnmets `sudo apt-get install -y python3 python3-dev python-pip3 build-essential flite`
+2. install system requirnmets `sudo apt-get install -y python3 python3-dev python-pip3 build-essential flite wmctrl portaudio19-dev libasound-dev`
 3. install python packages using pip3
 
     - pip3 install fuzzyset
+    - pip3 install PyAudio
     - pip3 install Flask
     - pip3 install SpeechRecognition
     - pip3 install scikit-learn
