@@ -117,7 +117,16 @@
             document.getElementById('refresh').addEventListener('click', () => {
                 var data = getTrackingData()
 
-                var pieData = generatePieData(Object.keys(data["total"]),Object.values(data["total"]));
+                let totalValues = Object.values(data["total"])
+                let totalValuesMins = [];
+
+                for (let i = 0; i < totalValues.length; i++){
+
+                    let totalMin = Math.trunc(totalValues[i]/3600)
+                    totalValuesMins.push(totalMin);
+                }
+
+                var pieData = generatePieData(Object.keys(data["total"]), totalValuesMins);
                 // pie chart options
                 var pieOptions = {
                     segmentShowStroke : false,
@@ -129,13 +138,14 @@
                 new Chart(countries).Pie(pieData, pieOptions);
                 // bar chart data
 
+
                 var barData = {
                     labels : Object.keys(data["total"]),
                     datasets : [
                         {
                             fillColor : "#48A497",
                             strokeColor : "#48A4D1",
-                            data : Object.values(data["total"])
+                            data : totalValuesMins
                         }
                     ]
                 }
